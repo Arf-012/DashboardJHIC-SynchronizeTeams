@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+    --color-button-gray: #393939;
+    --color-primary-text: #F9F6F2;
+    --color-primary-white: #D5D5D5;
+    --color-secondary-red: #6D1408;
+    --color-primary-gray: #1F2937;
+
+}
+
+.dashboard-sidebar {
+  background-color: var(--color-primary-white) !important;
+}
+
+/* Styling untuk navigation items */
+.dashboard-sidebar [data-slot="item"] {
+  color: var(--color-primary-gray);
+}
+
+.dashboard-sidebar [data-slot="item"]:hover {
+  background-color: #e5e5e5;
+}
+
+.dashboard-sidebar [data-slot="item"][aria-current="page"] {
+  background-color: #a8a8a8;
+  color: black;
+  font-weight: 500;
+}
+
