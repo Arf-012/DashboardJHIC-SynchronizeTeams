@@ -3,6 +3,9 @@
     <UDashboardNavbar
       title="Dashboard"
       class=""
+      :ui="{
+        title: 'text-primary-gray' 
+      }"
     />
   </div>
 </template>
