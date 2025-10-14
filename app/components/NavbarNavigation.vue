@@ -14,15 +14,16 @@
 
 const route = useRoute()
 
+
 const pageTitle = computed(() => {
   const path = route.path
-  if (path.includes('/')) return 'Dashboard'
+
   if (path.includes('/berita/list-berita')) return 'Berita'
   if (path.includes('/mading/list-mading')) return 'Mading'
-  if (path.includes('/eskul/list-eskul')) return 'ekstra kurikuler'
+  if (path.includes('/eskul/list-eskul')) return 'Ekstrakurikuler'
+
   return 'Dashboard'
 })
-
 
 </script>
 
