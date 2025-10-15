@@ -5,7 +5,7 @@
     >
       <div class="w-1/3 space-y-3">
         <div class="flex items-center gap-2">
-          <nuxt-img src="/images/Logo.png" class="w-80" />
+          <img src="/images/Logo.png" class="w-80"/>
         </div>
 
         <p class="text-sm leading-relaxed">
@@ -120,6 +120,18 @@
   </footer>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+//   const pageTitle = computed(() => {
+//   const path = route.path
+
+//   if (path.includes('/berita/list-berita')) return 'Dashboard > Berita'
+//   if (path.includes('/mading/list-mading')) return 'Dashboard >   Mading'
+//   if (path.includes('/eskul/list-eskul')) return 'Dashboard > Ekstrakurikuler'
+//   if (path.includes('/galeri/list-foto')) return 'Dashboard > Galeri'
+
+//   return 'Dashboard'
+// })
+
+</script>
 
 <style scoped></style>

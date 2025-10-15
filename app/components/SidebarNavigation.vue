@@ -71,6 +71,11 @@ const items: NavigationMenuItem[][] = [
       icon: "i-lucide-star",
       to: "/eskul/list-eskul",
     },
+    {
+      label: "Galeri",
+      icon: "i-lucide-image",
+      to: "/galeri/list-foto",
+    },
   ],
 ];
 </script>

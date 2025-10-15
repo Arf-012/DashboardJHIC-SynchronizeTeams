@@ -54,7 +54,7 @@
       <h3 class="text-2xl font-semibold text-primary-gray mb-4">
         Aktivitas Terbaru
       </h3>
-      <ul class="divide-y divide-gray-200">
+      <ul class="divide-y divide-secondary-red">
         <li class="py-3 flex justify-between items-center">
           <span class="text-primary-gray">
             <UIcon
