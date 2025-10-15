@@ -2,11 +2,17 @@
   <div class="p-8 flex flex-col gap-8">
     <div class="w-full flex justify-between">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800">Buat Berita Baru</h2>
-            <NuxtLink to="/berita/list-berita"><button class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md">Cancel</button></NuxtLink>
+      <NuxtLink to="/berita/list-berita">
+        <button
+          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
+        >
+          Cancel
+        </button>
+      </NuxtLink>
     </div>
 
-    <form @submit.prevent="submitForm" class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <div class=" p-4 ">
+    <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
+      <div class="p-4">
         <label for="judul" class="block text-sm font-medium text-primary-gray">Judul Berita</label>
         <input
           v-model="form.judul"
@@ -33,31 +39,27 @@
       </div>
 
       <div class="p-4">
-        <label for="isi" class="block text-sm font-medium text-primary-gray">Isi Berita</label>
-        <textarea
+        <RichTextEditor
           v-model="form.isi"
-          id="isi"
-          rows="6"
+          label="Isi Berita"
           placeholder="Tulis isi berita di sini..."
-          class="mt-1 block w-full rounded-md outline-2 outline-secondary-red border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-2"
-          required
-        ></textarea>
+        />
       </div>
 
       <div class="flex justify-end">
         <button
-          type="submit"
+          @click="submitForm"
           class="px-6 py-2 bg-secondary-red hover:bg-secondary-red/50 text-white font-medium rounded-md transition"
         >
           Simpan Berita
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import RichTextEditor from '~/components/RichTextEditor.vue'
 
 const form = ref({
   judul: '',
@@ -72,11 +74,14 @@ function handleImageUpload(event) {
   if (file) {
     form.value.gambar = file
     previewUrl.value = URL.createObjectURL(file)
+  } else {
+    form.value.gambar = null
+    previewUrl.value = null
   }
 }
 
 function submitForm() {
-  console.log('Data berita:', form.value)
+  console.log('📰 Data berita:', form.value)
   alert('Berita berhasil disimpan! (simulasi)')
 }
 </script>

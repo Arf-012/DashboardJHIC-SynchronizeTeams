@@ -8,12 +8,12 @@
     :toggle="{
       class: 'bg-secondary-red hover:bg-secondary-red/50 px-4',
     }"
-    mode="modal"
+    mode="drawer"
     :menu="{
       class: 'bg-primary-white text-primary-gray',
       ui: {
         body: 'p-4', 
-        wrapper: 'bg-primary-white', 
+        // wrapper: 'bg-primary-white', 
       }
     }"
   >
