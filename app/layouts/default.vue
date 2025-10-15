@@ -5,6 +5,7 @@
       <NavbarNavigation />
       <main class="flex-1 p-6 text-primary-gray">
         <slot />
+        <Footer />
       </main>
     </div>
   </div>

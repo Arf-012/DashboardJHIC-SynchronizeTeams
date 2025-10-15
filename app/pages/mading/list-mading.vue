@@ -1,5 +1,5 @@
 <template>
-  <section class="p-8 flex flex-col gap-8">
+  <section class="p-8 flex flex-col gap-8 min-h-screen">
     <div class="w-full flex justify-between">
       <h2 class="text-2xl font-bold mb-6 text-gray-800">Mading Terbaru</h2>
       <NuxtLink to="/berita/create-berita"><button class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md">Create</button></NuxtLink>

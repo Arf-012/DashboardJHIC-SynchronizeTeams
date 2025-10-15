@@ -21,7 +21,7 @@
         :items="items[0]"
         orientation="vertical"
         :ui="{
-          link: 'flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',
+          link: 'mt-6 flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',  
           linkLeadingIcon:
             'size-5 text-gray-400 group-data-[active=true]:text-primary-white group-focus:text-primary-white transition-colors duration-150',
         }"
@@ -70,6 +70,11 @@ const items: NavigationMenuItem[][] = [
       label: "Eskul",
       icon: "i-lucide-star",
       to: "/eskul/list-eskul",
+    },
+    {
+      label: "Galeri",
+      icon: "i-lucide-image",
+      to: "/galeri/list-foto",
     },
   ],
 ];
