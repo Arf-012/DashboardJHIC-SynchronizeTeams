@@ -73,4 +73,15 @@ export interface MadingForm {
   image: File | null 
 }
 
+export interface GalleryItem {
+  ID: number
+  CreatedAt: string
+  UpdatedAt: string
+  file_path: string
+  category: string
+  title: string
+  event: number
+}
+
+
 
