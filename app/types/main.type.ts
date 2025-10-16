@@ -46,3 +46,52 @@ export interface News {
   created_at?: string
 }
 
+export interface Mading {
+  id: number
+  title: string
+  description: string
+  category: string
+  start_date: string
+  end_date: string
+  location: string
+  organizer: string
+  visibility: 'public' | 'private'
+  image: string
+  created_at: string
+  updated_at?: string
+}
+
+export interface MadingForm {
+  title: string
+  description: string
+  category: string
+  start_date: string
+  end_date: string
+  location: string
+  organizer: string
+  visibility: string
+  image: File | null 
+}
+
+export interface GalleryItem {
+  ID: number
+  CreatedAt: string
+  UpdatedAt: string
+  file_path: string
+  category: string
+  title: string
+  event: number
+}
+
+export interface Guru {
+  id: number
+  nig: string
+  full_name: string
+  position: string
+  subject: string
+  photo: string
+  description: string
+}
+
+
+

@@ -1,31 +1,35 @@
 <template>
   <div class="p-8 flex flex-col gap-8">
     <div class="w-full flex justify-between">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Update Berita</h2>
-            <NuxtLink to="/berita/list-berita"><button class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md">Cancel</button></NuxtLink>
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Edit Berita</h2>
+      <NuxtLink to="/berita/list-berita">
+        <button
+          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
+        >
+          Cancel
+        </button>
+      </NuxtLink>
     </div>
 
-    <form @submit.prevent="submitForm" class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <div class=" p-4 ">
-        <label for="judul" class="block text-sm font-medium text-primary-gray">Judul Berita</label>
+    <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
+      <div class="p-4">
+        <label class="block text-sm font-medium text-primary-gray">Judul Berita</label>
         <input
           v-model="form.judul"
           type="text"
-          id="judul"
           placeholder="Masukkan judul berita..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-2"
+          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
           required
         />
       </div>
 
       <div class="p-4">
-        <label for="gambar" class="block text-sm font-medium text-primary-gray">Gambar Berita</label>
+        <label class="block text-sm font-medium text-primary-gray">Gambar Berita</label>
         <input
           type="file"
-          id="gambar"
           accept="image/*"
           @change="handleImageUpload"
-          class="mt-1 block w-full text-sm text-primary-gray border outline-2 outline-secondary-red border-gray-300 rounded-md cursor-pointer focus:outline-none p-1"
+          class="mt-1 block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
         />
         <div v-if="previewUrl" class="mt-3">
           <img :src="previewUrl" alt="Preview" class="w-full h-48 object-cover rounded-md" />
@@ -33,50 +37,126 @@
       </div>
 
       <div class="p-4">
-        <label for="isi" class="block text-sm font-medium text-primary-gray">Isi Berita</label>
+        <label class="block text-sm font-medium text-primary-gray">Excerpt</label>
         <textarea
-          v-model="form.isi"
-          id="isi"
-          rows="6"
-          placeholder="Tulis isi berita di sini..."
-          class="mt-1 block w-full rounded-md outline-2 outline-secondary-red border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-2"
-          required
+          v-model="form.excerpt"
+          rows="2"
+          placeholder="Tulis ringkasan singkat..."
+          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
         ></textarea>
       </div>
 
-      <div class="flex justify-end">
+      <div class="p-4">
+        <RichTextEditor
+          v-model="form.isi"
+          label="Isi Berita"
+          placeholder="Tulis isi berita di sini..."
+        />
+      </div>
+
+      <div class="p-4">
+        <label class="block text-sm font-medium text-primary-gray">Tags</label>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span
+            v-for="(tag, index) in form.tags"
+            :key="index"
+            class="bg-red-100 text-red-700 px-3 py-1 rounded-full flex items-center gap-1"
+          >
+            {{ tag }}
+            <button
+              @click="removeTag(index)"
+              class="text-xs text-red-500 hover:text-red-700"
+            >
+              ×
+            </button>
+          </span>
+        </div>
+        <input
+          v-model="newTag"
+          @keyup.enter="addTag"
+          placeholder="Tekan Enter untuk menambah tag"
+          class="mt-2 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+        />
+      </div>
+
+      <div class="flex justify-end p-4">
         <button
-          type="submit"
+          @click="submitEdit"
+          :disabled="loading"
           class="px-6 py-2 bg-secondary-red hover:bg-secondary-red/50 text-white font-medium rounded-md transition"
         >
-          Simpan Berita
+          <template v-if="loading">Memproses...</template>
+          <template v-else>Perbarui Berita</template>
         </button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+
+const route = useRoute()
+const router = useRouter()
+const { GetBeritaById, UpdateBerita, singleNews, loading } = useBerita()
 
 const form = ref({
   judul: '',
   isi: '',
-  gambar: null
+  gambar: null as File | null,
+  excerpt: '',
+  status: 'draft',
+  tags: [] as string[],
 })
 
-const previewUrl = ref(null)
+const previewUrl = ref<string | null>(null)
+const newTag = ref('')
 
-function handleImageUpload(event) {
-  const file = event.target.files[0]
+onMounted(async () => {
+  const data = await GetBeritaById(route.params.id as string)
+
+  if (data) {
+    form.value.judul = data.title
+    form.value.excerpt = data.excerpt
+    form.value.isi = data.content ?? ''
+    form.value.tags = Array.isArray(data.tags)
+      ? data.tags.map((t: any) =>
+          typeof t === 'string' ? t : t.name.replace(/"/g, '')
+        )
+      : []
+    if (data.thumbnail) {
+      previewUrl.value = `https://api-infra.synchronizeteams.my.id/${data.thumbnail}`
+    }
+  }
+})
+
+function handleImageUpload(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0]
   if (file) {
     form.value.gambar = file
     previewUrl.value = URL.createObjectURL(file)
   }
 }
 
-function submitForm() {
-  console.log('Data berita:', form.value)
-  alert('Berita berhasil disimpan! (simulasi)')
+function addTag() {
+  const tag = newTag.value.trim()
+  if (tag && !form.value.tags.includes(tag)) {
+    form.value.tags.push(tag)
+  }
+  newTag.value = ''
+}
+
+function removeTag(index: number) {
+  form.value.tags.splice(index, 1)
+}
+
+async function submitEdit() {
+  try {
+    await UpdateBerita(route.params.id as string, form.value)
+    alert('Berita berhasil diperbarui!')
+    router.push('/berita/list-berita')
+  } catch (err) {
+    console.error('Gagal memperbarui berita:', err)
+    alert('Gagal memperbarui berita.')
+  }
 }
 </script>
