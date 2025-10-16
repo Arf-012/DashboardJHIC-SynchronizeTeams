@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group rounded-xl overflow-hidden shadow hover:shadow-lg transition-all duration-300 bg-primary-white border-2 border-secondary-red dark:bg-primary-white cursor-pointer"
+    class="group rounded-xl overflow-hidden shadow hover:shadow-lg transition-all  duration-300 bg-primary-white border-2 border-secondary-red dark:bg-primary-white cursor-pointer"
   >
     <div class="relative w-full h-48 overflow-hidden">
       <img

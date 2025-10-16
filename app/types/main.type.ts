@@ -83,5 +83,15 @@ export interface GalleryItem {
   event: number
 }
 
+export interface Guru {
+  id: number
+  nig: string
+  full_name: string
+  position: string
+  subject: string
+  photo: string
+  description: string
+}
+
 
 
