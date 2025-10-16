@@ -7,4 +7,9 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },
   modules: ["@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
+  runtimeConfig: {
+    public: {
+      apiBase: "https://api-infra.synchronizeteams.my.id",
+    },  
+  },
 });
