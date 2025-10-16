@@ -22,3 +22,27 @@ export interface User {
   Post: any | null;
   Replies: any | null;
 }
+
+export interface Author {
+  id: number
+  name: string
+}
+
+export interface Tag {
+  ID?: number
+  name: string
+}
+
+export interface News {
+  id?: number
+  title: string
+  excerpt: string
+  content?: string
+  status: string
+  thumbnail?: File | string
+  tags: string[]
+  author?: Author
+  slug?: string
+  created_at?: string
+}
+
