@@ -1,21 +1,16 @@
 <template>
-  <div
-    class="min-h-screen flex flex-col bg-primary-white"
-  >
+  <div class="min-h-screen flex flex-col bg-primary-white">
     <div class="flex-grow flex items-center justify-center px-4 py-12">
       <div class="max-w-md w-full">
         <div
-          class=" rounded-2xl shadow-xl border border-secondary-red overflow-hidden"
+          class="rounded-2xl shadow-xl border border-secondary-red overflow-hidden"
         >
           <div class="bg-secondary-dark p-8 text-center">
-            <img
-              src="/images/Logo.png"
-              alt="Logo"
-              class="w-80 mx-auto mb-3"
-            />
+            <img src="/images/Logo.png" alt="Logo" class="w-80 mx-auto mb-3" />
             <h1 class="text-2xl font-bold text-primary-gray mb-2">LOGIN</h1>
             <p class="text-primary-gray text-sm">
-              Masukkan kredensial untuk masuk ke <span class="text-secondary-red">Dashboard</span>
+              Masukkan kredensial untuk masuk ke
+              <span class="text-secondary-red">Dashboard</span>
             </p>
           </div>
 
@@ -26,7 +21,7 @@
                   for="no_induk"
                   class="block text-gray-700 text-sm font-semibold"
                 >
-                  Nomor Induk
+                  Email
                 </label>
                 <div class="relative">
                   <div
@@ -35,11 +30,11 @@
                     <Icon name="lucide:user" class="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    type="text"
-                    id="no_induk"
-                    v-model="state.no_induk"
+                    type="email"
+                    id="email"
+                    v-model="state.email"
                     class="w-full pl-10 pr-12 py-3 border text-primary-gray border-secondary-red/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary-red focus:border-transparent transition-all duration-200"
-                    placeholder="Masukkan Nomor Induk"
+                    placeholder="Masukkan Email anda"
                     required
                   />
                 </div>
@@ -78,7 +73,7 @@
                   </button>
                 </div>
                 <p
-                  v-if="errorMessage"
+                  v-if="error"
                   class="text-red-500 text-sm font-semibold text-center"
                 >
                   {{ errorMessage }}
@@ -90,7 +85,7 @@
                 class="w-full flex justify-center items-center gap-2 font-bold rounded-lg py-3 px-6 text-lg text-white bg-secondary-red hover:bg-secondary-red/50 hover:text-white transition-all hover:shadow-none hover:translate-y-[3px]"
                 type="submit"
               >
-                <template v-if="isLoading">
+                <template v-if="loading">
                   <Icon
                     name="lucide-loader-2"
                     class="animate-spin inline-block mr-2"
@@ -105,28 +100,32 @@
             </form>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+const { login, loading, error } = useAuth();
 
 definePageMeta({
-  layout: false
-})
+  layout: false,
+});
 
 const isLoading = ref(false);
 const showPassword = ref(false);
 const errorMessage = ref("");
 
 const state = ref({
-  no_induk: "",
+  email: "",
   password: "",
 });
 
 const handleLogin = async () => {
-
-}
+  try {
+    await login(state.value);
+  } catch (err) {
+    errorMessage.value = "Terjadi kesalahan saat login.";
+  }
+};
 </script>
