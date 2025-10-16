@@ -66,22 +66,18 @@
 import { ref, computed, onMounted } from 'vue'
 const { news, loading, error, FetchAllBerita } = useBerita()
 
-// Pagination state
 const currentPage = ref(1)
 const perPage = 6
 
-// Hitung total halaman
 const totalPages = computed(() =>
   Math.ceil(news.value.length / perPage)
 )
 
-// Ambil hanya berita sesuai halaman
 const paginatedNews = computed(() => {
   const start = (currentPage.value - 1) * perPage
   return news.value.slice(start, start + perPage)
 })
 
-// Ambil data dari API saat komponen dimuat
 onMounted(() => {
   FetchAllBerita()
 })
