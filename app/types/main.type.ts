@@ -132,5 +132,20 @@ export interface Achievement {
   News?: AchievementNews;
 }
 
+export interface Tamu {
+  id: number;
+  title: string;
+  instance_name: string;
+  contact_person: string;
+  email: string;
+  phone: string;
+  description: string;
+  status: string;
+  rejection_reason?: string;
+  approved_at?: string;
+  request_date: string;
+  show_in_calendar: boolean;
+}
+
 
 
