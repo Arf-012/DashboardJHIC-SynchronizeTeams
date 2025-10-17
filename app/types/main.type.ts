@@ -147,5 +147,15 @@ export interface Tamu {
   show_in_calendar: boolean;
 }
 
+export interface Forum {
+  id: number
+  name: string
+  slug: string
+  description: string | null
+  icon: string | null
+  is_active: boolean
+  created_at: string
+}
+
 
 

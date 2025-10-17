@@ -29,7 +29,7 @@
         :key="item.id"
         :id="item.id!"
         :title="item.title"
-        :image="`https://api-infra.synchronizeteams.my.id/${item.thumbnail}`"
+        :image="`${apiUrl}/${item.thumbnail}`"
         :to="`/berita/${item.slug}`"
       />
     </div>
@@ -68,6 +68,15 @@ const { news, loading, error, FetchAllBerita } = useBerita()
 
 const currentPage = ref(1)
 const perPage = 6
+
+const apiUrl = useRuntimeConfig().public.apiBase
+
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "/images/default.jpg"
+  return path.startsWith("http")
+    ? path
+    : `${apiUrl}/${path}`
+}
 
 const totalPages = computed(() =>
   Math.ceil(news.value.length / perPage)

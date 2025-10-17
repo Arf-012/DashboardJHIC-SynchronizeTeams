@@ -64,14 +64,14 @@ const selectedGuru = ref<Guru | null>(null);
 const showModal = ref(false);
 const selectedId = ref<number | null>(null);
 
-const getImageUrl = (path: string) => {
-  if (!path) return "/images/default-user.png";
-  const cleanPath = path.replace(/^\/+/, "");
+const apiUrl = useRuntimeConfig().public.apiBase
+
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "/images/default.jpg"
   return path.startsWith("http")
     ? path
-    : `https://api-infra.synchronizeteams.my.id/${cleanPath}`;
-};
-
+    : `${apiUrl}/${path}`
+}
 const showDetail = (guruData: Guru) => {
   selectedGuru.value = guruData;
 };

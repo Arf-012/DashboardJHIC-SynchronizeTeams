@@ -13,7 +13,6 @@
       class: 'bg-primary-white text-primary-gray',
       ui: {
         body: 'p-4',
-        // wrapper: 'bg-primary-white',
       },
     }"
   >
@@ -58,12 +57,12 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
   {
     label: "Berita",
-    icon: "i-lucide-newspaper",
+    icon: "i-lucide-newspaper", // Sudah bagus
     to: "/berita/list-berita",
   },
   {
     label: "Mading",
-    icon: "i-lucide-list",
+    icon: "i-lucide-clipboard-list",
     to: "/mading/list-mading",
   },
   {
@@ -78,13 +77,33 @@ const items = computed<NavigationMenuItem[]>(() => [
   },
   {
     label: "Guru",
-    icon: "i-lucide-image",
+    icon: "i-lucide-graduation-cap",
     to: "/guru/list-guru",
   },
   {
     label: "Prestasi",
-    icon: "i-lucide-image",
+    icon: "i-lucide-trophy",
     to: "/prestasi/list-prestasi",
+  },
+  {
+    label: "Tamu",
+    icon: "i-lucide-user-plus",
+    to: "/tamu/list-pertemuan",
+  },
+  {
+    label: "Forum",
+    icon: "i-lucide-messages-square",
+    to: "/forum/list-forum",
+  },
+  {
+    label: "Sertifikasi",
+    icon: "i-lucide-award",
+    to: "/sertifikasi/list-sertifikasi",
+  },
+  {
+    label: "Industri",
+    icon: "i-lucide-factory",
+    to: "/industri/list-industri",
   },
 ]);
 </script>
