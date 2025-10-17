@@ -59,6 +59,7 @@ export interface Mading {
   image: string
   created_at: string
   updated_at?: string
+  imageUrl?: string
 }
 
 export interface MadingForm {
@@ -69,8 +70,8 @@ export interface MadingForm {
   end_date: string
   location: string
   organizer: string
-  visibility: string
   image: File | null 
+  imageUrl?: string
 }
 
 export interface GalleryItem {
@@ -91,6 +92,59 @@ export interface Guru {
   subject: string
   photo: string
   description: string
+}
+
+export interface Eskul {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  pembina_id: number;
+  Pembina: {
+    id: number;
+    full_name: string;
+  };
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface EskulForm {
+  name: string;
+  description: string;
+  pembina_id: string;
+  image: File | null;
+}
+
+export interface AchievementNews {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+}
+
+export interface Achievement {
+  id: number;
+  title: string;
+  description: string;
+  image?: File | string | null;
+  achievement_date: string;
+  news_id?: number;
+  News?: AchievementNews;
+}
+
+export interface Tamu {
+  id: number;
+  title: string;
+  instance_name: string;
+  contact_person: string;
+  email: string;
+  phone: string;
+  description: string;
+  status: string;
+  rejection_reason?: string;
+  approved_at?: string;
+  request_date: string;
+  show_in_calendar: boolean;
 }
 
 

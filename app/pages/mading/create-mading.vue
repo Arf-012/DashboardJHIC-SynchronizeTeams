@@ -96,18 +96,6 @@
         />
       </div>
 
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Visibility</label>
-        <select
-          v-model="form.visibility"
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        >
-          <option disabled value="">Pilih visibility...</option>
-          <option value="public">Public</option>
-          <option value="private">Private</option>
-        </select>
-      </div>
-
       <div class="flex justify-end p-4">
         <button
           @click="submitForm"
@@ -135,7 +123,6 @@ const form = ref({
   end_date: '',
   location: '',
   organizer: '',
-  visibility: '',
   image: null as File | null,
 })
 
@@ -151,11 +138,6 @@ function handleImageUpload(event: Event) {
 
 async function submitForm() {
   try {
-    if (!form.value.visibility) {
-      alert('Pilih visibility terlebih dahulu!')
-      return
-    }
-
     await createMading(form.value)
     alert('Event berhasil disimpan!')
     navigateTo('/mading/list-mading')

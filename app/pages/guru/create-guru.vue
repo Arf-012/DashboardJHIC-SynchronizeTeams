@@ -2,7 +2,7 @@
   <div class="p-8 flex flex-col gap-8">
     <div class="w-full flex justify-between">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800">Tambah Guru Baru</h2>
-      <NuxtLink to="/guru">
+      <NuxtLink to="/guru/list-guru">
         <button
           class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
         >
@@ -24,7 +24,6 @@
         />
       </div>
 
-      <!-- Nama Lengkap -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Nama Lengkap</label>
         <input
@@ -36,7 +35,6 @@
         />
       </div>
 
-      <!-- Posisi -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Posisi</label>
         <input
@@ -63,12 +61,12 @@
       <!-- Deskripsi -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
-        <textarea
+        <RichTextEditor
           v-model="form.description"
           rows="3"
           placeholder="Tuliskan deskripsi guru..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        ></textarea>
+        />
       </div>
 
       <!-- Upload Foto -->

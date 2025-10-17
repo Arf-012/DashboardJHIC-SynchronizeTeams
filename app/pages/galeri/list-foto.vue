@@ -38,7 +38,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <PhotoCard
-        v-for="item in gallery"
+        v-for="item in paginatedGallery"
         :key="item.ID"
         :image-url="getImageUrl(item.file_path)"
         :title="item.title"
@@ -53,6 +53,30 @@
       @confirm="confirmDelete"
       @cancel="closeModal"
     />
+       <div
+      v-if="!loading && !error && totalPages > 1"
+      class="flex justify-center items-center gap-4 mt-10"
+    >
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === 1"
+        @click="currentPage--"
+      >
+        ← Prev
+      </button>
+
+      <span class="font-medium text-gray-700">
+        Halaman {{ currentPage }} / {{ totalPages }}
+      </span>
+
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === totalPages"
+        @click="currentPage++"
+      >
+        Next →
+      </button>
+    </div>
   </div>
 </template>
 
@@ -100,6 +124,18 @@ const getImageUrl = (path: string) => {
     ? path
     : `https://api-infra.synchronizeteams.my.id/${path}`;
 };
+
+const currentPage = ref(1)
+const perPage = 6
+
+const totalPages = computed(() =>
+  Math.ceil(gallery.value.length / perPage)
+)
+
+const paginatedGallery = computed(() => {
+  const start = (currentPage.value - 1) * perPage
+  return gallery.value.slice(start, start + perPage)
+})
 
 // Saat mount
 onMounted(() => {
