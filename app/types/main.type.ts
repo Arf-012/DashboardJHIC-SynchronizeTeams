@@ -59,6 +59,7 @@ export interface Mading {
   image: string
   created_at: string
   updated_at?: string
+  imageUrl?: string
 }
 
 export interface MadingForm {
@@ -69,8 +70,8 @@ export interface MadingForm {
   end_date: string
   location: string
   organizer: string
-  visibility: string
   image: File | null 
+  imageUrl?: string
 }
 
 export interface GalleryItem {

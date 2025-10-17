@@ -1,8 +1,17 @@
 <template>
   <div class="p-6 min-h-screen">
-    <div class="max-w-2xl mx-auto rounded-2xl p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit Data Guru</h2>
-
+    <div class="w-full flex justify-between">
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Edit Guru</h2>
+      <NuxtLink to="/guru/list-guru">
+        <button
+          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
+        >
+          Cancel
+        </button>
+      </NuxtLink>
+    </div>
+    <div class="mx-auto rounded-2xl p-6">
+    
       <!-- Loading -->
       <div v-if="loading" class="text-gray-500 animate-pulse">Memuat data guru...</div>
 
@@ -17,7 +26,7 @@
           <input
             v-model="form.nig"
             type="text"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2"
           />
         </div>
 
@@ -27,27 +36,25 @@
           <input
             v-model="form.full_name"
             type="text"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2"
           />
         </div>
 
-        <!-- Posisi -->
         <div>
           <label class="block text-gray-700 font-semibold mb-1">Posisi</label>
           <input
             v-model="form.position"
             type="text"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2 "
           />
         </div>
 
-        <!-- Mata Pelajaran -->
         <div>
           <label class="block text-gray-700 font-semibold mb-1">Mata Pelajaran</label>
           <input
             v-model="form.subject"
             type="text"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2"
           />
         </div>
 
@@ -57,7 +64,7 @@
           <textarea
             v-model="form.description"
             rows="4"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2 resize-none"
           ></textarea>
         </div>
 
@@ -78,7 +85,7 @@
             type="file"
             accept="image/*"
             @change="onFileChange"
-            class="w-full border border-gray-300 outline-2 outline-secondary-red rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2"
           />
           <div v-if="previewPhoto" class="mt-2">
             <p class="text-gray-700 font-semibold mb-1">Preview Foto Baru:</p>
@@ -149,7 +156,7 @@ const getImageUrl = (path: string) => {
 const handleUpdate = async () => {
   await updateGuru(guruId, form);
   alert("Guru berhasil diperbarui!");
-  router.push("/guru");
+  router.push("/list-guru");
 };
 
 onMounted(loadGuru);

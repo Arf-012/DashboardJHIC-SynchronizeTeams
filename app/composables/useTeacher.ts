@@ -1,5 +1,6 @@
 import type { Guru } from "~/types/main.type";
 
+
 export const UseTeacher = () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
@@ -106,7 +107,7 @@ export const UseTeacher = () => {
       if (form.photo) formData.append("photo", form.photo);
 
       const res = await $fetch(`${apiUrl}/api/v1/teacher/edit/${id}`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
