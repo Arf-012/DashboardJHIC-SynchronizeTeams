@@ -1,14 +1,20 @@
 export const UseStorage = () => {
-  let token: any =ref("")
+  let token: any = ref("");
 
   const setToken = (token: string) => {
-    useCookie("authToken").value = token
-  }
+    useCookie("authToken").value = token;
+  };
 
-  const getToken = ( ) => {
-    token = useCookie("authToken").value
-    return token
-  }
+  const getToken = () => {
+    token = useCookie("authToken").value;
+    return token;
+  };
 
-  return { setToken, getToken}
-}
+  const removeToken = () => {
+    const authToken = useCookie("authToken");
+    authToken.value = null;
+    navigateTo("/auth/login")
+  };
+
+  return { setToken, getToken, removeToken };
+};

@@ -52,12 +52,14 @@ onMounted(async () => {
   await FetchAllEskul();
 });
 
-const getImageUrl = (path: string) => {
-  if (!path) return "/images/default.jpg";
+const apiUrl = useRuntimeConfig().public.apiBase
+
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "/images/default.jpg"
   return path.startsWith("http")
     ? path
-    : `https://api-infra.synchronizeteams.my.id/${path}`;
-};
+    : `${apiUrl}/${path}`
+}
 
 function editEskul(id: number) {
   navigateTo(`/eskul/edit/${id}`);

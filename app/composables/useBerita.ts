@@ -139,6 +139,31 @@ export const useBerita = () => {
     }
   };
 
+  const DeleteBerita = async (id: string | number) => {
+  loading.value = true
+  error.value = null
+
+  try {
+    await $fetch(`${config.public.apiBase}/api/v1/news/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+
+    // Hapus dari state lokal
+    news.value = news.value.filter((item) => item.id !== id)
+  } catch (err: any) {
+    error.value = err.message
+    console.error("Gagal menghapus berita:", err)
+    throw err
+  } finally {
+    loading.value = false
+  }
+}
+
+
   return {
     createBerita,
     loading,
@@ -148,5 +173,6 @@ export const useBerita = () => {
     GetBeritaById,
     UpdateBerita,
     singleNews,
+    DeleteBerita
   };
 };

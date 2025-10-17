@@ -21,7 +21,7 @@
         :items="items[0]"
         orientation="vertical"
         :ui="{
-          link: 'mt-6 flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',  
+          link: 'mt-6 flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',
           linkLeadingIcon:
             'size-5 text-gray-400 group-data-[active=true]:text-primary-white group-focus:text-primary-white transition-colors duration-150',
         }"
@@ -34,20 +34,11 @@
         class="mt-auto"
       />
     </template>
-
-    <template #footer="{ collapsed }">
-      <UButton
-        :label="collapsed ? undefined : 'Log Out'"
-        color="error"
-        variant="ghost"
-        class="w-full"
-        :block="collapsed"
-      />
-    </template>
   </UDashboardSidebar>
 </template>
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+
 
 const items: NavigationMenuItem[][] = [
   [
@@ -58,12 +49,12 @@ const items: NavigationMenuItem[][] = [
     },
     {
       label: "Berita",
-      icon: "i-lucide-newspaper",
+      icon: "i-lucide-newspaper", // Sudah bagus
       to: "/berita/list-berita",
     },
     {
       label: "Mading",
-      icon: "i-lucide-list",
+      icon: "i-lucide-clipboard-list",
       to: "/mading/list-mading",
     },
     {
@@ -78,16 +69,37 @@ const items: NavigationMenuItem[][] = [
     },
     {
       label: "Guru",
-      icon: "i-lucide-image",
+      icon: "i-lucide-graduation-cap",
       to: "/guru/list-guru",
     },
     {
       label: "Prestasi",
-      icon: "i-lucide-image",
+      icon: "i-lucide-trophy",
       to: "/prestasi/list-prestasi",
+    },
+    {
+      label: "Tamu",
+      icon: "i-lucide-user-plus",
+      to: "/tamu/list-pertemuan",
+    },
+    {
+      label: "Forum",
+      icon: "i-lucide-messages-square",
+      to: "/forum/list-forum",
+    },
+    {
+      label: "Sertifikasi",
+      icon: "i-lucide-award",
+      to: "/sertifikat/list-sertifikat",
+    },
+    {
+      label: "Industri",
+      icon: "i-lucide-factory",
+      to: "/industri/list-industri",
     },
   ],
 ];
+
 </script>
 
 <style scoped></style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group rounded-xl overflow-hidden shadow hover:shadow-lg transition-all  duration-300 bg-primary-white border-2 border-secondary-red dark:bg-primary-white cursor-pointer"
+    class="group rounded-xl overflow-hidden shadow hover:shadow-lg transition-all duration-300 bg-primary-white border-2 border-secondary-red cursor-pointer"
   >
     <div class="relative w-full h-48 overflow-hidden">
       <img
@@ -17,7 +17,18 @@
         {{ title }}
       </h3>
 
-      <div class="flex gap-4">
+      <!-- Status Visibility -->
+      <span
+        class="text-xs font-semibold px-2 py-1 rounded-md capitalize w-fit"
+        :class="visibility === 'public'
+          ? 'bg-green-100 text-green-700'
+          : 'bg-yellow-100 text-yellow-700'"
+      >
+        {{ visibility }}
+      </span>
+
+      <!-- Tombol Aksi -->
+      <div class="flex flex-wrap gap-3 mt-2">
         <NuxtLink :to="`/mading/edit/${id}`">
           <button
             class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
@@ -32,26 +43,38 @@
         >
           Delete
         </button>
+
+        <!-- Tombol Change Visibility -->
+        <button
+          @click.stop="handleChangeVisibility"
+          class="px-4 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-md transition"
+        >
+          {{ visibility === 'public' ? 'Make Private' : 'Make Public' }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps<{
   id: number
   title: string
   image: string
-  to?: string
+  visibility: "public" | "private"
 }>()
 
-// const navigateToDetail = () => {
-//   if (props.to) router.push(props.to)
-// }
+const emit = defineEmits<{
+  (e: "delete", id: number): void
+  (e: "change-visibility", id: number, visibility: "public" | "private"): void
+}>()
 
-// Delete (contoh)
 const handleDelete = () => {
-  alert(`Hapus berita dengan ID: ${props.id}`)
+  emit("delete", props.id)
+}
+
+const handleChangeVisibility = () => {
+  const newVisibility = props.visibility === "public" ? "private" : "public"
+  emit("change-visibility", props.id, newVisibility)
 }
 </script>

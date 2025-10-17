@@ -1,102 +1,48 @@
 <template>
-  <div class="flex flex-col gap-8 w-full p-6">
-    <div class="text-center">
-      <h2 class="text-5xl md:text-7xl font-bold text-primary-gray mb-2">
+  <div class="flex flex-col gap-12 w-full p-6">
+    <!-- Header -->
+    <div class="text-center mt-12">
+      <h1 class="text-5xl md:text-7xl font-bold text-primary-gray mb-4">
         Selamat Datang
-      </h2>
+      </h1>
       <p class="text-xl text-gray-500">
         Pilih menu di samping untuk mulai mengelola kontenmu.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div
-        class="border-2 border-secondary-red rounded-2xl shadow p-6 flex flex-col items-center justify-center hover:shadow-lg transition"
-      >
-        <div class="text-4xl mb-2">
-          <UIcon
-            name="i-lucide-newspaper"
-            class="size-5 text-primary-gray mx-auto"
-          />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-700">Total Berita</h3>
-        <p class="text-3xl font-bold text-secondary-red mt-1">12</p>
+    <!-- Menu Placeholder -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      <div class="border-2 border-secondary-red rounded-2xl shadow p-8 flex flex-col items-center justify-center hover:shadow-lg transition">
+        <UIcon name="i-lucide-newspaper" class="size-6 text-primary-gray mb-3" />
+        <h3 class="text-lg font-semibold text-gray-700">Berita</h3>
       </div>
-
-      <div
-        class="border-2 border-secondary-red rounded-2xl shadow p-6 flex flex-col items-center justify-center hover:shadow-lg transition"
-      >
-        <div class="text-4xl mb-2">
-          <UIcon
-            name="i-lucide-newspaper"
-            class="size-5 text-primary-gray mx-auto"
-          />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-700">Total Mading</h3>
-        <p class="text-3xl font-bold text-secondary-red mt-1">8</p>
+      <div class="border-2 border-secondary-red rounded-2xl shadow p-8 flex flex-col items-center justify-center hover:shadow-lg transition">
+        <UIcon name="i-lucide-file-text" class="size-6 text-primary-gray mb-3" />
+        <h3 class="text-lg font-semibold text-gray-700">Mading</h3>
       </div>
-
-      <div
-        class="border-2 border-secondary-red rounded-2xl shadow p-6 flex flex-col items-center justify-center hover:shadow-lg transition"
-      >
-        <div class="text-4xl mb-2">
-          <UIcon
-            name="i-lucide-newspaper"
-            class="size-5 text-primary-gray mx-auto"
-          />
-        </div>
+      <div class="border-2 border-secondary-red rounded-2xl shadow p-8 flex flex-col items-center justify-center hover:shadow-lg transition">
+        <UIcon name="i-lucide-award" class="size-6 text-primary-gray mb-3" />
         <h3 class="text-lg font-semibold text-gray-700">Ekstrakurikuler</h3>
-        <p class="text-3xl font-bold text-secondary-red mt-1">5</p>
       </div>
     </div>
 
-    <div class="border-2 border-secondary-red rounded-2xl shadow p-6 mt-4">
-      <h3 class="text-2xl font-semibold text-primary-gray mb-4">
-        Aktivitas Terbaru
-      </h3>
-      <ul class="divide-y divide-secondary-red">
-        <li class="py-3 flex justify-between items-center">
-          <span class="text-primary-gray">
-            <UIcon
-              name="i-lucide-newspaper"
-              class="size-5 text-primary-gray mx-auto"
-            />
-            Berita baru ditambahkan: “Kegiatan Literasi Sekolah”</span
-          >
-          <span class="text-sm text-gray-500">2 jam lalu</span>
-        </li>
-        <li class="py-3 flex justify-between items-center">
-          <span class="text-gray-700">
-            <UIcon
-              name="i-lucide-newspaper"
-              class="size-5 text-primary-gray mx-auto"
-            />
-            Mading “Karya Siswa Bulan Ini” diperbarui</span
-          >
-          <span class="text-sm text-gray-500">5 jam lalu</span>
-        </li>
-        <li class="py-3 flex justify-between items-center">
-          <span class="text-gray-700">
-            <UIcon
-              name="i-lucide-newspaper"
-              class="size-5 text-primary-gray mx-auto"
-            />
-            Ekstrakurikuler baru: Futsal</span
-          >
-          <span class="text-sm text-gray-500">Kemarin</span>
-        </li>
-      </ul>
+    <!-- Footer Visual / Motivasi -->
+    <div class="text-center mt-16">
+      <p class="text-lg text-gray-500 max-w-xl mx-auto">
+        Gunakan dashboard ini untuk menavigasi dan mengelola konten sekolahmu dengan mudah dan efisien.
+      </p>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style scoped>
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;

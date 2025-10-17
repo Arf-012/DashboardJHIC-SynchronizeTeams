@@ -147,5 +147,27 @@ export interface Tamu {
   show_in_calendar: boolean;
 }
 
+export interface Forum {
+  id: number
+  name: string
+  slug: string
+  description: string | null
+  icon: string | null
+  is_active: boolean
+  created_at: string
+}
+
+export interface Sertifikat {
+  id: number;
+  name: string;
+  issuer: string;
+  description: string;
+  image: string; 
+  certification_number: string;
+  issue_date: string;
+  expiry_date: string;
+  created_at: string;
+}
+
 
 

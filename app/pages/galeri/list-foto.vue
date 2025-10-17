@@ -118,12 +118,14 @@ const handleCategoryChange = () => {
   }
 };
 
-const getImageUrl = (path: string) => {
-  if (!path) return "/images/default.jpg";
+const apiUrl = useRuntimeConfig().public.apiBase
+
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "/images/default.jpg"
   return path.startsWith("http")
     ? path
-    : `https://api-infra.synchronizeteams.my.id/${path}`;
-};
+    : `${apiUrl}/${path}`
+}
 
 const currentPage = ref(1)
 const perPage = 6
