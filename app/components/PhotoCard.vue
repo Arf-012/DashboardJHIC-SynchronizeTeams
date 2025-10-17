@@ -16,24 +16,15 @@
       <p class="font-semibold truncate">{{ title || "Tanpa Nama" }}</p>
     </div>
 
-    <!-- Tombol Edit & Delete (muncul saat hover) -->
     <div
       class="absolute top-2 z-50 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
     >
       <button
-        @click="$emit('edit')"
-        class="bg-yellow-500 text-white p-2 rounded-full hover:bg-yellow-600 transition"
-        title="Edit"
-      >
-        <i class="fas fa-edit"></i>
-      </button>
-
-      <button
         @click="$emit('delete')"
-        class="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition"
+        class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition"
         title="Hapus"
       >
-        <i class="fas fa-trash-alt"></i>
+        <i class="fas fa-trash-alt"></i>Hapus
       </button>
     </div>
   </div>

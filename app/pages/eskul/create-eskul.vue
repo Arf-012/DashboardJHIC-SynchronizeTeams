@@ -38,12 +38,12 @@
 
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
-        <textarea
+        <RichTextEditor
           v-model="form.description"
           rows="4"
           placeholder="Tulis deskripsi singkat ekstrakurikuler..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        ></textarea>
+        />
       </div>
 
       <div class="p-4">

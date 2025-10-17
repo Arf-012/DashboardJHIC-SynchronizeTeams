@@ -45,6 +45,7 @@ const pageTitle = computed(() => {
   if (path.includes("/mading/list-mading")) return "Dashboard > Mading";
   if (path.includes("/eskul/list-eskul")) return "Dashboard > Ekstrakurikuler";
   if (path.includes("/galeri/list-foto")) return "Dashboard > Galeri";
+  if (path.includes("/guru/list-guru")) return "Dashboard > Guru";
 
   return "Dashboard";
 });
@@ -74,6 +75,11 @@ const items = computed<NavigationMenuItem[]>(() => [
       label: "Galeri",
       icon: "i-lucide-image",
       to: "/galeri/list-foto",
+    },
+    {
+      label: "Guru",
+      icon: "i-lucide-image",
+      to: "/guru/list-guru",
     },
 ]);
 </script>

@@ -115,4 +115,22 @@ export interface EskulForm {
   image: File | null;
 }
 
+export interface AchievementNews {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+}
+
+export interface Achievement {
+  id: number;
+  title: string;
+  description: string;
+  image?: File | string | null;
+  achievement_date: string;
+  news_id?: number;
+  News?: AchievementNews;
+}
+
+
 

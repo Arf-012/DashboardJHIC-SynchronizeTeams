@@ -20,10 +20,7 @@
     </div>
 
     <!-- Grid card guru -->
-    <div
-      v-else
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <GuruCard
         v-for="g in guru"
         :key="g.id"
@@ -32,7 +29,7 @@
         :subtitle="g.subject"
         @show-detail="showDetail(g)"
         @edit="editGuru(g.id)"
-        @delete=""
+        @delete="openDeleteModal(g.id)"
       />
     </div>
 
@@ -48,15 +45,24 @@
       :guru="selectedGuru"
       @close="selectedGuru = null"
     />
+    <ConfirmModal
+      :show="showModal"
+      title="Hapus Guru"
+      message="Apakah kamu yakin ingin menghapus Guru ini?"
+      @confirm="confirmDelete"
+      @cancel="closeModal"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import type { Guru } from "~/types/main.type";
 
-const { guru, fetchGuru, loading, error } = UseTeacher();
+const { guru, fetchGuru, loading, error, deleteGuru } = UseTeacher();
 
 const selectedGuru = ref<Guru | null>(null);
+const showModal = ref(false);
+const selectedId = ref<number | null>(null);
 
 const getImageUrl = (path: string) => {
   if (!path) return "/images/default-user.png";
@@ -74,10 +80,23 @@ const editGuru = (id: number) => {
   navigateTo(`/guru/edit/${id}`);
 };
 
-// const openDeleteModal = (id: number) => {
-//   // modal konfirmasi hapus bisa disiapkan di sini
-//   deleteGuru(id);
-// };
+
+const openDeleteModal = (id: number) => {
+  selectedId.value = id;
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  selectedId.value = null;
+  showModal.value = false;
+};
+
+const confirmDelete = async () => {
+  if (selectedId.value) {
+    await deleteGuru(selectedId.value);
+    closeModal();
+  }
+};
 
 onMounted(() => {
   fetchGuru();

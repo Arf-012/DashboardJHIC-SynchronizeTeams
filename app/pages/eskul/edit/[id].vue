@@ -12,7 +12,6 @@
     </div>
 
     <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <!-- Nama Eskul -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Nama Eskul</label>
         <input
@@ -38,18 +37,16 @@
         </div>
       </div>
 
-      <!-- Deskripsi -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
-        <textarea
+        <RichTextEditor
           v-model="form.description"
           rows="4"
           placeholder="Tulis deskripsi singkat ekstrakurikuler..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        ></textarea>
+        />
       </div>
 
-      <!-- Pembina -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Pembina</label>
         <select
@@ -63,7 +60,6 @@
         </select>
       </div>
 
-      <!-- Tombol -->
       <div class="flex justify-end p-4">
         <button
           @click="updateData"
@@ -88,7 +84,6 @@ const eskulId = Number(route.params.id)
 const { FetchEskulById, UpdateEskul, loading } = UseEskul()
 const { fetchGuru, guru } = UseTeacher()
 
-// struktur data form
 const form = ref({
   name: "",
   description: "",

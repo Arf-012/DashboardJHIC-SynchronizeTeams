@@ -124,6 +124,20 @@ export const UseTeacher = () => {
     }
   };
 
+    const deleteGuru = async (id: number) => {
+    try {
+      await $fetch(`${apiUrl}/api/v1/teacher/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (err: any) {
+      console.error("Gagal hapus Guru", err);
+      error.value = err.message;
+    }
+  };
+
   return {
     guru,
     fetchGuru,
@@ -131,6 +145,7 @@ export const UseTeacher = () => {
     error,
     CreateGuru,
     fetchGuruById,
-    updateGuru
+    updateGuru,
+    deleteGuru
   };
 };
