@@ -94,5 +94,25 @@ export interface Guru {
   description: string
 }
 
+export interface Eskul {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  pembina_id: number;
+  Pembina: {
+    id: number;
+    full_name: string;
+  };
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface EskulForm {
+  name: string;
+  description: string;
+  pembina_id: string;
+  image: File | null;
+}
 
 
