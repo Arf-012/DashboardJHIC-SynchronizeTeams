@@ -15,7 +15,9 @@
         </select>
 
         <NuxtLink to="/mading/create-mading">
-          <button class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md">
+          <button
+            class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
+          >
             Create
           </button>
         </NuxtLink>
@@ -23,34 +25,33 @@
     </div>
 
     <!-- Loading & Error -->
-    <div v-if="loading" class="text-gray-500 text-center py-10">Memuat data mading...</div>
+    <div v-if="loading" class="text-gray-500 text-center py-10">
+      Memuat data mading...
+    </div>
     <div v-else-if="error" class="text-red-500 text-center py-10">{{ error }}</div>
 
     <!-- Data -->
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <cardComponent
+    <div
+      v-else
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <EventCard
         v-for="item in paginatedMading"
         :key="item.id"
         :id="item.id"
         :title="item.title"
         :image="getImageUrl(item.image)"
-        :to="`/mading/${item.id}`"
-      >
-        <template #footer>
-          <span
-            class="text-xs font-semibold px-2 py-1 rounded-md"
-            :class="item.visibility === 'public'
-              ? 'bg-green-100 text-green-700'
-              : 'bg-yellow-100 text-yellow-700'"
-          >
-            {{ item.visibility }}
-          </span>
-        </template>
-      </cardComponent>
+        :visibility="item.visibility"
+        @delete="handleDelete"
+        @change-visibility="handleChangeVisibility"
+      />
     </div>
 
     <!-- Pagination -->
-    <div v-if="!loading && !error && totalPages > 1" class="flex justify-center items-center gap-4 mt-10">
+    <div
+      v-if="!loading && !error && totalPages > 1"
+      class="flex justify-center items-center gap-4 mt-10"
+    >
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
@@ -59,7 +60,9 @@
         ← Prev
       </button>
 
-      <span class="font-medium text-gray-700">Halaman {{ currentPage }} / {{ totalPages }}</span>
+      <span class="font-medium text-gray-700">
+        Halaman {{ currentPage }} / {{ totalPages }}
+      </span>
 
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
@@ -73,12 +76,22 @@
 </template>
 
 <script setup lang="ts">
-const { filteredMading, FetchAllMading, loading, error, filterVisibility } = UseMading()
+
+const {
+  filteredMading,
+  FetchAllMading,
+  loading,
+  error,
+  filterVisibility,
+  changeVisibility,
+} = UseMading()
 
 const currentPage = ref(1)
 const perPage = 6
 
-const totalPages = computed(() => Math.ceil(filteredMading.value.length / perPage))
+const totalPages = computed(() =>
+  Math.ceil(filteredMading.value.length / perPage)
+)
 
 const paginatedMading = computed(() => {
   const start = (currentPage.value - 1) * perPage
@@ -93,8 +106,31 @@ const apiUrl = useRuntimeConfig().public.apiBase
 
 const getImageUrl = (path?: string | null) => {
   if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`
+}
+
+// 🧹 Hapus Mading
+const handleDelete = async (id: number) => {
+  if (confirm("Yakin ingin menghapus mading ini?")) {
+    try {
+      const { deleteMading } = UseMading()
+      await deleteMading(id)
+      await FetchAllMading()
+    } catch (err) {
+      console.error("Gagal menghapus mading:", err)
+    }
+  }
+}
+
+const handleChangeVisibility = async (
+  id: number,
+  newVisibility: "public" | "private"
+) => {
+  try {
+    await changeVisibility(id, newVisibility)
+    await FetchAllMading()
+  } catch (err) {
+    console.error("Gagal mengubah visibility:", err)
+  }
 }
 </script>

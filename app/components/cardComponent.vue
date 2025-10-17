@@ -38,6 +38,7 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(["delete"])
 import { useRouter } from "vue-router";
 
 const props = defineProps<{
@@ -55,6 +56,6 @@ const router = useRouter()
 
 // Delete (contoh)
 const handleDelete = () => {
-  alert(`Hapus berita dengan ID: ${props.id}`)
+  emit("delete", props.id) // kirim event ke parent
 }
 </script>

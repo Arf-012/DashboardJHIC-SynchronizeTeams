@@ -1,5 +1,3 @@
-// import type { Mading, MadingForm } from "~/types/main.type";
-
 import type { Mading, MadingForm } from "~/types/main.type";
 
 export const UseMading = () => {
@@ -11,8 +9,7 @@ export const UseMading = () => {
   const error = ref<string | null>(null);
 
   const mading: Ref<Mading[]> = ref([]);
-  const singleMading = ref<Mading | null>(null); 
-
+  const singleMading = ref<Mading | null>(null);
   const filterVisibility = ref<"all" | "public" | "private">("all");
 
   const createMading = async (form: MadingForm) => {
@@ -28,6 +25,7 @@ export const UseMading = () => {
     formData.append("location", form.location);
     formData.append("organizer", form.organizer);
     if (form.image) formData.append("image", form.image);
+
     try {
       const res = await $fetch<Mading>(`${apiUrl}/api/v1/event/create`, {
         method: "POST",
@@ -41,10 +39,12 @@ export const UseMading = () => {
       error.value = err.message;
       console.error("Gagal membuat mading:", err);
       throw err;
+    } finally {
+      loading.value = false;
     }
   };
 
-  const UpdateMading = async (id: number,form: MadingForm) => {
+  const UpdateMading = async (id: number, form: MadingForm) => {
     loading.value = true;
     error.value = null;
 
@@ -57,6 +57,7 @@ export const UseMading = () => {
     formData.append("location", form.location);
     formData.append("organizer", form.organizer);
     if (form.image) formData.append("image", form.image);
+
     try {
       const res = await $fetch<Mading>(`${apiUrl}/api/v1/event/edit/${id}`, {
         method: "POST",
@@ -68,8 +69,10 @@ export const UseMading = () => {
       return res;
     } catch (err: any) {
       error.value = err.message;
-      console.error("Gagal membuat mading:", err);
+      console.error("Gagal mengedit mading:", err);
       throw err;
+    } finally {
+      loading.value = false;
     }
   };
 
@@ -85,7 +88,7 @@ export const UseMading = () => {
 
       mading.value = res;
     } catch (error) {
-      console.error("Error fetch News", error);
+      console.error("Error fetch mading:", error);
     }
   };
 
@@ -113,6 +116,68 @@ export const UseMading = () => {
     }
   };
 
+  // ✅ Fungsi hapus mading
+  const deleteMading = async (id: number) => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      await $fetch(`${apiUrl}/api/v1/event/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Hapus dari state lokal juga
+      mading.value = mading.value.filter((item) => item.id !== id);
+    } catch (err: any) {
+      error.value = err.message;
+      console.error("Gagal menghapus mading:", err);
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const changeVisibility = async (
+    id: number,
+    visibility: "public" | "private"
+  ) => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const formData = new FormData();
+      formData.append("visibility", visibility);
+
+      const res = await $fetch<Mading>(`${apiUrl}/api/v1/event/change-visibility/${id}`, {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // update data di list biar langsung refleksi di UI
+      const index = mading.value.findIndex((m) => m.id === id);
+      if (index !== -1 && mading.value[index]) {
+        mading.value[index] = {
+          ...mading.value[index],
+          visibility,
+        };
+      }
+
+      return res;
+    } catch (err: any) {
+      console.error("Gagal mengubah visibility:", err);
+      error.value = err.message;
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const filteredMading = computed(() => {
     if (filterVisibility.value === "all") return mading.value;
     return mading.value.filter(
@@ -126,14 +191,16 @@ export const UseMading = () => {
 
   return {
     createMading,
+    UpdateMading,
+    FetchAllMading,
+    FetchMadingById,
+    deleteMading,
+    changeVisibility,
     loading,
     error,
-    FetchAllMading,
     mading,
-    setVisibilityFilter,
     filteredMading,
     filterVisibility,
-    UpdateMading,
-    FetchMadingById
+    setVisibilityFilter,
   };
 };

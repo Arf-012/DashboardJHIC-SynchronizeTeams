@@ -21,7 +21,7 @@
         :items="items[0]"
         orientation="vertical"
         :ui="{
-          link: 'mt-6 flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',  
+          link: 'mt-6 flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-150 text-primary-gray hover:text-primary-white hover:bg-secondary-red/50 focus:bg-secondary-red focus:text-primary-white data-[active=true]:bg-secondary-red data-[active=true]:text-primary-white',
           linkLeadingIcon:
             'size-5 text-gray-400 group-data-[active=true]:text-primary-white group-focus:text-primary-white transition-colors duration-150',
         }"
@@ -34,26 +34,17 @@
         class="mt-auto"
       />
     </template>
-
-    <template #footer="{ collapsed }">
-      <UButton
-        :label="collapsed ? undefined : 'Log Out'"
-        color="error"
-        variant="ghost"
-        class="w-full"
-        :block="collapsed"
-      />
-    </template>
   </UDashboardSidebar>
 </template>
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
+
 const items: NavigationMenuItem[][] = [
   [
     {
       label: "Home",
-      icon: "i-lucide-house", 
+      icon: "i-lucide-house",
       to: "/",
     },
     {
@@ -63,51 +54,52 @@ const items: NavigationMenuItem[][] = [
     },
     {
       label: "Mading",
-      icon: "i-lucide-clipboard-list", 
+      icon: "i-lucide-clipboard-list",
       to: "/mading/list-mading",
     },
     {
-      label: "Eskul", 
-      icon: "i-lucide-star", 
+      label: "Eskul",
+      icon: "i-lucide-star",
       to: "/eskul/list-eskul",
     },
     {
       label: "Galeri",
-      icon: "i-lucide-image", 
+      icon: "i-lucide-image",
       to: "/galeri/list-foto",
     },
     {
       label: "Guru",
-      icon: "i-lucide-graduation-cap", 
+      icon: "i-lucide-graduation-cap",
       to: "/guru/list-guru",
     },
     {
       label: "Prestasi",
-      icon: "i-lucide-trophy", 
+      icon: "i-lucide-trophy",
       to: "/prestasi/list-prestasi",
     },
     {
-      label: "Tamu", 
-      icon: "i-lucide-user-plus", 
+      label: "Tamu",
+      icon: "i-lucide-user-plus",
       to: "/tamu/list-pertemuan",
     },
     {
       label: "Forum",
-      icon: "i-lucide-messages-square", 
+      icon: "i-lucide-messages-square",
       to: "/forum/list-forum",
     },
     {
       label: "Sertifikasi",
-      icon: "i-lucide-award", 
-      to: "/sertifikasi/list-sertifikasi", 
+      icon: "i-lucide-award",
+      to: "/sertifikat/list-sertifikat",
     },
     {
       label: "Industri",
-      icon: "i-lucide-factory", 
+      icon: "i-lucide-factory",
       to: "/industri/list-industri",
     },
   ],
 ];
+
 </script>
 
 <style scoped></style>

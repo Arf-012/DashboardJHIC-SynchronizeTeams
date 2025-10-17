@@ -31,6 +31,7 @@
         :title="item.title"
         :image="`${apiUrl}/${item.thumbnail}`"
         :to="`/berita/${item.slug}`"
+        @delete="handleDelete" 
       />
     </div>
 
@@ -64,7 +65,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-const { news, loading, error, FetchAllBerita } = useBerita()
+const { news, loading, error, FetchAllBerita, DeleteBerita } = useBerita()
 
 const currentPage = ref(1)
 const perPage = 6
@@ -90,4 +91,18 @@ const paginatedNews = computed(() => {
 onMounted(() => {
   FetchAllBerita()
 })
+
+const handleDelete = async (id: number) => {
+  if (confirm("Yakin ingin menghapus berita ini?")) {
+    try {
+      await DeleteBerita(id)
+      // Option 1: refresh data dari server
+      await FetchAllBerita()
+      // Option 2 (lebih cepat): data sudah dihapus di composable, jadi bisa skip FetchAllBerita()
+    } catch (err) {
+      console.error("Gagal menghapus berita:", err)
+      alert("Gagal menghapus berita.")
+    }
+  }
+}
 </script>

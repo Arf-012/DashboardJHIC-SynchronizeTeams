@@ -32,7 +32,7 @@ export const UseForum = () => {
     }
   }
 
-  const getForumById = async (id: string) => {
+  const getForumById = async (id: number) => {
     try {
       const res = await $fetch<Forum>(`${apiUrl}/api/v1/forum/show/${id}`, {
         method: "GET",

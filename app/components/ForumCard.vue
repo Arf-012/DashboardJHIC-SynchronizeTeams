@@ -2,7 +2,9 @@
   <div
     class="w-full bg-white border border-secondary-red rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col sm:flex-row items-stretch"
   >
-    <div class="sm:w-48 w-full h-48 sm:h-auto relative bg-gray-100 flex-shrink-0">
+    <div
+      class="sm:w-48 w-full h-48 sm:h-auto relative bg-gray-100 flex-shrink-0"
+    >
       <img
         v-if="icon"
         :src="icon"
@@ -23,7 +25,7 @@
           {{ name }}
         </h3>
         <p class="text-sm text-gray-500 mt-1 line-clamp-2">
-          {{ description || "Belum ada deskripsi." }}
+          {{ truncateText(description || "Belum ada deskripsi.", 100) }}
         </p>
       </div>
 
@@ -56,12 +58,21 @@
 
 <script setup lang="ts">
 defineProps<{
-  id: number
-  name: string
-  description: string | null
-  icon?: string | null
-  isActive: boolean
-}>()
+  id: number;
+  name: string;
+  description: string | null;
+  icon?: string | null;
+  isActive: boolean;
+}>();
 
-defineEmits(["edit", "delete"])
+const truncateText = (text: string, maxLength: number) => {
+  if (!text) return "";
+
+  const plainText = text.replace(/<[^>]+>/g, "");
+
+  if (plainText.length <= maxLength) return plainText;
+  return plainText.substring(0, maxLength) + "...";
+};
+
+defineEmits(["edit", "delete"]);
 </script>
