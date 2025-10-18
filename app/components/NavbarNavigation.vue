@@ -98,12 +98,7 @@ const items = computed<NavigationMenuItem[]>(() => [
   {
     label: "Sertifikasi",
     icon: "i-lucide-award",
-    to: "/sertifikasi/list-sertifikasi",
-  },
-  {
-    label: "Industri",
-    icon: "i-lucide-factory",
-    to: "/industri/list-industri",
+    to: "/sertifikat/list-sertifikat",
   },
 ]);
 </script>

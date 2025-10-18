@@ -67,7 +67,7 @@ export const useBerita = () => {
       );
 
       news.value = res;
-    } catch (error) {
+    } catch (error) { 
       console.error("Error fetch News", error);
     }
   };
@@ -152,7 +152,6 @@ export const useBerita = () => {
       },
     })
 
-    // Hapus dari state lokal
     news.value = news.value.filter((item) => item.id !== id)
   } catch (err: any) {
     error.value = err.message
