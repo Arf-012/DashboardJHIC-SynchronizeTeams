@@ -92,11 +92,6 @@ const items: NavigationMenuItem[][] = [
       icon: "i-lucide-award",
       to: "/sertifikat/list-sertifikat",
     },
-    {
-      label: "Industri",
-      icon: "i-lucide-factory",
-      to: "/industri/list-industri",
-    },
   ],
 ];
 
