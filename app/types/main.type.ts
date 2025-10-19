@@ -196,5 +196,17 @@ export interface Testimonial {
   created_at: string; 
 }
 
+export interface Portal {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+  logo: string;
+  category: string;
+  is_sso_enabled: boolean;
+  is_active: boolean;
+  created_at: string; // ISO date string
+}
+
 
 
