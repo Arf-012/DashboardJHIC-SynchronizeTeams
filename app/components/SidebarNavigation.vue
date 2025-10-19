@@ -103,12 +103,12 @@ const items: NavigationMenuItem[][] = [
     },
     {
       label: "Testimoni",
-      icon: "i-lucide-pin",
+      icon: "i-lucide-message-square-text",
       to: "/testimoni/list-testimoni",
     },
     {
       label: "Portal",
-      icon: "i-lucide-pin",
+      icon: "i-lucide-layout-grid",
       to: "/portal/list-portal",
     },
   ],
