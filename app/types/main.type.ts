@@ -187,5 +187,14 @@ export interface Acara {
   is_active: boolean;
 }
 
+export interface Testimonial {
+  id: number;
+  name: string;
+  position: string;
+  photo: string; 
+  testimonial: string;
+  created_at: string; 
+}
+
 
 
