@@ -144,7 +144,7 @@ async function submitForm() {
   try {
     await createMading(form.value)
     alert('Event berhasil disimpan!')
-    navigateTo('/mading/list-mading')
+    navigateTo('/event/list-event')
   } catch (err) {
     console.error('Gagal menyimpan event:', err)
     alert('Gagal menyimpan event. Periksa kembali input.')

@@ -13,7 +13,7 @@
           <option value="private">Private</option>
         </select>
 
-        <NuxtLink to="/mading/create-mading">
+        <NuxtLink to="/event/create-event">
           <button
             class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
           >
