@@ -101,6 +101,16 @@ const items: NavigationMenuItem[][] = [
       icon: "i-lucide-pin",
       to: "/mading/list-mading",
     },
+    {
+      label: "Testimoni",
+      icon: "i-lucide-message-square-text",
+      to: "/testimoni/list-testimoni",
+    },
+    {
+      label: "Portal",
+      icon: "i-lucide-layout-grid",
+      to: "/portal/list-portal",
+    },
   ],
 ];
 </script>

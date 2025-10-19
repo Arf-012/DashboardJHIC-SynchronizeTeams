@@ -187,5 +187,26 @@ export interface Acara {
   is_active: boolean;
 }
 
+export interface Testimonial {
+  id: number;
+  name: string;
+  position: string;
+  photo: string; 
+  testimonial: string;
+  created_at: string; 
+}
+
+export interface Portal {
+  id: number;
+  name: string;
+  description: string;
+  url: string;
+  logo: string;
+  category: string;
+  is_sso_enabled: boolean;
+  is_active: boolean;
+  created_at: string; // ISO date string
+}
+
 
 

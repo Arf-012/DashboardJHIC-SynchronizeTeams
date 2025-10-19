@@ -49,13 +49,15 @@ const pageTitle = computed(() => {
   if (path.includes("/prestasi/list-prestasi")) return "Dashboard > Prestasi";
   if (path.includes("/tamu/list-pertemuan")) return "Dashboard > Tamu";
   if (path.includes("/forum/list-forum")) return "Dashboard > Forum";
-  if (path.includes("/sertifikat/list-sertifikat")) return "Dashboard > Sertifikasi";
+  if (path.includes("/sertifikat/list-sertifikat"))
+    return "Dashboard > Sertifikasi";
   if (path.includes("/industri/list-industri")) return "Dashboard > Industri";
   if (path.includes("/mading/list-mading")) return "Dashboard > Mading";
+  if (path.includes("/testimoni/list-testimoni")) return "Dashboard > Testimoni";
+  if (path.includes("/portal/list-portal")) return "Dashboard > Portal";
 
   return "Dashboard";
 });
-
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
@@ -117,6 +119,16 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: "Mading",
     icon: "i-lucide-pin",
     to: "/mading/list-mading",
+  },
+  {
+    label: "Testimoni",
+    icon: "i-lucide-message-square-text",
+    to: "/testimoni/list-testimoni",
+  },
+  {
+    label: "Portal",
+    icon: "i-lucide-layout-grid",
+    to: "/portal/list-portal",
   },
 ]);
 </script>

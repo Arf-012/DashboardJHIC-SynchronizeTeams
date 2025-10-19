@@ -116,7 +116,6 @@ export const UseMading = () => {
     }
   };
 
-  // ✅ Fungsi hapus mading
   const deleteMading = async (id: number) => {
     loading.value = true;
     error.value = null;
