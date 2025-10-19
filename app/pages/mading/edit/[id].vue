@@ -215,7 +215,7 @@ async function submitForm() {
       alert("Event berhasil disimpan!");
     }
 
-    router.push("/mading/list-mading");
+    router.push("/event/list-event");
   } catch (err) {
     console.error("Gagal menyimpan event:", err);
     alert("Gagal menyimpan event. Periksa kembali input.");

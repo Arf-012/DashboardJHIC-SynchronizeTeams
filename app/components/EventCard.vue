@@ -27,7 +27,7 @@
       </span>
 
       <div class="flex flex-wrap gap-3 mt-2">
-        <NuxtLink :to="`/mading/edit/${id}`">
+        <NuxtLink :to="`/event/edit/${id}`">
           <button
             class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
           >
