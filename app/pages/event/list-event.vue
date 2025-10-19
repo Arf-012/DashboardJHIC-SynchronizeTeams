@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6">
+  <div class="p-6 min-h-screen">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold">Mading</h2>
 

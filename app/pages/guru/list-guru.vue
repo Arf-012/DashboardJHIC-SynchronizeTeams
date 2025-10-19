@@ -17,7 +17,7 @@
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <GuruCard
-        v-for="g in guru"
+        v-for="g in paginatedGuru"
         :key="g.id"
         :image-url="getImageUrl(g.photo)"
         :title="g.full_name"
@@ -47,6 +47,30 @@
       @confirm="confirmDelete"
       @cancel="closeModal"
     />
+    <div
+      v-if="!loading && !error && totalPages > 1"
+      class="flex justify-center items-center gap-4 mt-10"
+    >
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === 1"
+        @click="currentPage--"
+      >
+        ← Prev
+      </button>
+
+      <span class="font-medium text-gray-700">
+        Halaman {{ currentPage }} / {{ totalPages }}
+      </span>
+
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === totalPages"
+        @click="currentPage++"
+      >
+        Next →
+      </button>
+    </div>
   </section>
 </template>
 
@@ -59,14 +83,12 @@ const selectedGuru = ref<Guru | null>(null);
 const showModal = ref(false);
 const selectedId = ref<number | null>(null);
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 const showDetail = (guruData: Guru) => {
   selectedGuru.value = guruData;
 };
@@ -74,7 +96,6 @@ const showDetail = (guruData: Guru) => {
 const editGuru = (id: number) => {
   navigateTo(`/guru/edit/${id}`);
 };
-
 
 const openDeleteModal = (id: number) => {
   selectedId.value = id;
@@ -92,6 +113,17 @@ const confirmDelete = async () => {
     closeModal();
   }
 };
+
+const currentPage = ref(1);
+const perPage = 8;
+
+const totalPages = computed(() => Math.ceil(guru.value.length / perPage));
+
+const paginatedGuru = computed(() => {
+  if (!Array.isArray(guru.value)) return [];
+  const start = (currentPage.value - 1) * perPage;
+  return guru.value.slice(start, start + perPage);
+});
 
 onMounted(() => {
   fetchGuru();

@@ -29,7 +29,7 @@
       Memuat foto...
     </div>
 
-    <div v-else-if="gallery" class="text-gray-500 text-center py-8">
+    <div v-else-if="!gallery" class="text-gray-500 text-center py-8">
       Tidak ada foto yang ditemukan
     </div>
 
@@ -128,7 +128,7 @@ const getImageUrl = (path?: string | null) => {
 }
 
 const currentPage = ref(1)
-const perPage = 6
+const perPage = 8
 
 const totalPages = computed(() =>
   Math.ceil(gallery.value.length / perPage)
@@ -139,7 +139,6 @@ const paginatedGallery = computed(() => {
   return gallery.value.slice(start, start + perPage)
 })
 
-// Saat mount
 onMounted(() => {
   fetchGallery();
 });

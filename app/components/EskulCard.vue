@@ -53,7 +53,7 @@
           {{ name }}
         </h3>
         <p class="text-gray-600 mt-2 line-clamp-2">
-          {{ description || "Belum ada deskripsi." }}
+          {{ truncateText(description, 100) }}
         </p>
       </div>
 
@@ -112,6 +112,16 @@ defineProps<{
   image?: string;
   pembinaName?: string;
 }>();
+
+const truncateText = (text: string, maxLength: number) => {
+  if (!text) return "";
+
+  const plainText = text.replace(/<[^>]+>/g, "");
+
+  if (plainText.length <= maxLength) return plainText;
+  return plainText.substring(0, maxLength) + "...";
+};
+
 
 defineEmits(["edit", "delete"]);
 </script>

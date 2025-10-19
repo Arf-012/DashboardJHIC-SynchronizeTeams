@@ -1,8 +1,8 @@
 <template>
   <div class="p-8 flex flex-col gap-8">
-    <div class="w-full flex justify-between">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Upload Gambar Galeri</h2>
-      <NuxtLink to="/galeri/list">
+    <div class="w-full flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-gray-800">Upload Gambar Galeri</h2>
+      <NuxtLink to="/galeri/list-foto">
         <button
           class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
         >
@@ -12,36 +12,42 @@
     </div>
 
     <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <!-- Judul -->
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Judul</label>
+        <label class="block text-sm font-medium text-primary-gray mb-1">Judul</label>
         <input
           v-model="form.title"
           type="text"
           placeholder="Masukkan judul gambar..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+          class="block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
           required
         />
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Kategori</label>
-        <input
+        <label class="block text-sm font-medium text-primary-gray mb-1">Kategori</label>
+        <select
           v-model="form.category"
-          type="text"
-          placeholder="Misal: galeri"
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+          class="block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2 bg-white"
           required
-        />
+        >
+          <option disabled value="">Pilih kategori...</option>
+          <option
+            v-for="(cat, i) in categories"
+            :key="i"
+            :value="cat"
+          >
+            {{ cat }}
+          </option>
+        </select>
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Gambar</label>
+        <label class="block text-sm font-medium text-primary-gray mb-1">Gambar</label>
         <input
           type="file"
           accept="image/*"
           @change="handleFile"
-          class="mt-1 block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
+          class="block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
         />
         <div v-if="previewUrl" class="mt-3">
           <img :src="previewUrl" class="w-full h-48 object-cover rounded-md" />
@@ -65,8 +71,23 @@
 <script setup lang="ts">
 const { uploadGallery, loading } = useUseGaleri();
 
+const categories = [
+  "berita",
+  "mading",
+  "galeri",
+  "teacher",
+  "eskul",
+  "achievement",
+  "testimonial",
+  "saprol",
+  "certification",
+  "portal",
+  "mitra",
+  "profile",
+];
+
 const form = ref({
-  category: "galeri",
+  category: "",
   title: "",
   file_path: null as File | null,
 });
@@ -82,8 +103,8 @@ function handleFile(event: Event) {
 }
 
 async function submitForm() {
-  if (!form.value.file_path) {
-    alert("Pilih gambar terlebih dahulu!");
+  if (!form.value.title || !form.value.category || !form.value.file_path) {
+    alert("Pastikan semua field terisi dan gambar telah dipilih!");
     return;
   }
 
@@ -93,6 +114,7 @@ async function submitForm() {
     alert("Gambar berhasil diunggah!");
     navigateTo("/galeri/list-foto");
   } catch (err) {
+    console.error(err);
     alert("Gagal upload gambar.");
   }
 }

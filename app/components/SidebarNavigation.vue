@@ -98,7 +98,7 @@ const items: NavigationMenuItem[][] = [
     },
     {
       label: "Mading",
-      icon: "i-lucide-factory",
+      icon: "i-lucide-pin",
       to: "/mading/list-mading",
     },
   ],

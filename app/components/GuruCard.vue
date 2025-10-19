@@ -49,5 +49,7 @@ defineProps<{
   subtitle?: string;
 }>();
 
+
+
 defineEmits(["show-detail", "edit", "delete"]);
 </script>
