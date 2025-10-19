@@ -92,7 +92,7 @@
 
             <div class="space-y-4">
               <TamuCard
-                v-for="invitation in pendingInvitations"
+                v-for="invitation in paginatedTamu"
                 :key="invitation.id"
                 :tamu="invitation"
                 @approve="handleApprove"
@@ -134,7 +134,7 @@
                 Belum ada acara yang disetujui
               </p>
 
-              <div
+              <!-- <div
                 v-for="event in approvedEvents"
                 :key="event.id"
                 class="bg-secondary-red/10 border-l-4 border-secondary-red rounded-lg p-3 hover:bg-secondary-red/20 transition-colors"
@@ -155,7 +155,7 @@
                     <p class="text-gray-600 text-xs">{{ event.title }}</p>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <div class="border-t pt-4 shrink-0">
@@ -176,13 +176,37 @@
         </div>
       </div>
     </div>
+        <div
+      v-if="!loading && !error && totalPages > 1"
+      class="flex justify-center items-center gap-4 mt-10"
+    >
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === 1"
+        @click="currentPage--"
+      >
+        ← Prev
+      </button>
+
+      <span class="font-medium text-gray-700">
+        Halaman {{ currentPage }} / {{ totalPages }}
+      </span>
+
+      <button
+        class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
+        :disabled="currentPage === totalPages"
+        @click="currentPage++"
+      >
+        Next →
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import TamuCard from "~/components/TamuCard.vue";
 
-const { tamuList, fetchAllTamu, approveTamu, rejectTamu, loading } = UseTamu();
+const { tamuList, fetchAllTamu, approveTamu, rejectTamu, loading, error } = UseTamu();
 
 const showNotification = ref(false);
 const notificationMessage = ref("");
@@ -214,6 +238,18 @@ async function handleReject(tamuId: number) {
   await fetchAllTamu();
   setTimeout(() => (showNotification.value = false), 2000);
 }
+
+const currentPage = ref(1);
+const perPage = 6;
+
+const totalPages = computed(() => Math.ceil(tamuList.value.length / perPage));
+
+const paginatedTamu = computed(() => {
+  if (!Array.isArray(tamuList.value)) return [];
+  const start = (currentPage.value - 1) * perPage;
+  return tamuList.value.slice(start, start + perPage);
+});
+
 </script>
 
 <style scoped>

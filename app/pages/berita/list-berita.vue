@@ -11,13 +11,12 @@
         </button>
       </NuxtLink>
     </div>
-    <hr class="bg-secondary-red h-0.5" />
 
     <div v-if="loading" class="text-center text-gray-500 py-10">
       Memuat berita...
     </div>
-    <div v-else-if="error" class="text-center text-red-500 py-10">
-      {{ error }}
+    <div v-else-if="news.length === 0" class="text-center text-gray-500 py-10">
+      Tidak ada berita yang ditemukan
     </div>
 
     <div
@@ -35,7 +34,6 @@
       />
     </div>
 
-    <!-- Pagination -->
     <div
       v-if="!loading && !error && totalPages > 1"
       class="flex justify-center items-center gap-4 mt-10"

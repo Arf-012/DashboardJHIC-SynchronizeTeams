@@ -16,8 +16,8 @@
     <div v-if="loading" class="text-gray-500 text-center py-10">
       Memuat data prestasi...
     </div>
-    <div v-else-if="error" class="text-red-500 text-center py-10">
-      {{ error }}
+    <div v-else-if="prestasi.length === 0" class="text-gray-500 text-center py-10">
+      Tidak ada prestasi yang ditemukan
     </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -104,6 +104,7 @@ const perPage = 6;
 const totalPages = computed(() => Math.ceil(prestasi.value.length / perPage));
 
 const paginatedPrestasi = computed(() => {
+  if (!Array.isArray(prestasi.value)) return [];
   const start = (currentPage.value - 1) * perPage;
   return prestasi.value.slice(start, start + perPage);
 });

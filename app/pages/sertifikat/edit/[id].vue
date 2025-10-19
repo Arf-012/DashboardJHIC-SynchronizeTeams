@@ -157,7 +157,6 @@
 const route = useRoute();
 const { id } = route.params;
 
-// Interface TypeScript
 interface SertifikatForm {
   name: string;
   issuer: string;
@@ -198,13 +197,11 @@ const removeImageFlag = ref(false);
 
 const apiUrl = useRuntimeConfig().public.apiBase;
 
-// Format date untuk input[type="date"]
 const formatDateForInput = (dateString: string | null | undefined): string => {
   if (!dateString) return '';
   return dateString.split('T')[0] ?? '';
 };
 
-// Load data sertifikat
 onMounted(async () => {
   try {
     await fetchSertifikatById(id as string);

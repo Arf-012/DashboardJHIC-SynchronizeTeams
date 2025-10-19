@@ -15,8 +15,8 @@
     <div v-if="loading" class="text-gray-500 text-center py-10">
       Memuat data eskul...
     </div>
-    <div v-else-if="error" class="text-red-500 text-center py-10">
-      {{ error }}
+    <div v-else-if="eskulList.length === 0" class="text-gray-500 text-center py-10">
+      Tidak ada eskul yang ditemukan
     </div>
 
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

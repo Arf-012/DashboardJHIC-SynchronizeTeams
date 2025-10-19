@@ -15,11 +15,6 @@
       Memuat data guru...
     </div>
 
-    <div v-else-if="error" class="text-red-500 text-center py-10">
-      {{ error }}
-    </div>
-
-    <!-- Grid card guru -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <GuruCard
         v-for="g in guru"
