@@ -76,6 +76,8 @@
 
 <script setup lang="ts">
 
+
+
 const {
   fetchAllIndustri,
   loading,

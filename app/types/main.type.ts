@@ -177,6 +177,15 @@ export interface Industri {
   website: string
   created_at: string;
 }
+export interface Acara {
+  id: number;
+  title: string;
+  type: string;
+  content: string;
+  image: string
+  status: string;
+  is_active: boolean;
+}
 
 
 

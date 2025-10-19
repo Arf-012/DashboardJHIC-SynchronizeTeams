@@ -142,6 +142,10 @@ import { useRoute, useRouter } from "vue-router";
 import type { MadingForm } from "~/types/main.type";
 // import type { MadingForm } from "~/types/main.type";
 
+definePageMeta({
+  path: "/event/edit/:id",
+});
+
 const { createMading, loading, FetchMadingById, UpdateMading } = UseMading();
 
 const route = useRoute();

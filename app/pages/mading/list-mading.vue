@@ -1,7 +1,7 @@
 <template>
   <section class="p-8 flex flex-col gap-8 min-h-screen">
     <div class="w-full flex justify-between items-center">
-      <h2 class="text-2xl font-bold text-gray-800">Mading Terbaru</h2>
+      <h2 class="text-2xl font-bold text-gray-800">Event Terbaru</h2>
 
       <div class="flex items-center gap-3">
         <select
@@ -24,7 +24,7 @@
     </div>
 
     <div v-if="loading" class="text-gray-500 text-center py-10">
-      Memuat data mading...
+      Memuat data Event...
     </div>
     <div v-else-if="filteredMading.length === 0" class="text-gray-500 text-center py-10">{{ error }}</div>
 
@@ -72,6 +72,10 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+  path: "/event/list-event",
+});
 
 const {
   filteredMading,

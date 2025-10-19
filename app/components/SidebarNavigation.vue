@@ -52,9 +52,9 @@ const items: NavigationMenuItem[][] = [
       to: "/berita/list-berita",
     },
     {
-      label: "Mading",
+      label: "Event",
       icon: "i-lucide-clipboard-list",
-      to: "/mading/list-mading",
+      to: "/event/list-event",
     },
     {
       label: "Eskul",
@@ -95,6 +95,11 @@ const items: NavigationMenuItem[][] = [
       label: "Industri",
       icon: "i-lucide-factory",
       to: "/industri/list-industri",
+    },
+    {
+      label: "Mading",
+      icon: "i-lucide-factory",
+      to: "/mading/list-mading",
     },
   ],
 ];
