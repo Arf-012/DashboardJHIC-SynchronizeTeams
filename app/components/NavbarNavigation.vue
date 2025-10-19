@@ -40,14 +40,22 @@ const route = useRoute();
 const pageTitle = computed(() => {
   const path = route.path;
 
+  if (path === "/") return "Dashboard > Home";
   if (path.includes("/berita/list-berita")) return "Dashboard > Berita";
-  if (path.includes("/mading/list-mading")) return "Dashboard > Mading";
+  if (path.includes("/event/list-event")) return "Dashboard > Event";
   if (path.includes("/eskul/list-eskul")) return "Dashboard > Ekstrakurikuler";
   if (path.includes("/galeri/list-foto")) return "Dashboard > Galeri";
   if (path.includes("/guru/list-guru")) return "Dashboard > Guru";
+  if (path.includes("/prestasi/list-prestasi")) return "Dashboard > Prestasi";
+  if (path.includes("/tamu/list-pertemuan")) return "Dashboard > Tamu";
+  if (path.includes("/forum/list-forum")) return "Dashboard > Forum";
+  if (path.includes("/sertifikat/list-sertifikat")) return "Dashboard > Sertifikasi";
+  if (path.includes("/industri/list-industri")) return "Dashboard > Industri";
+  if (path.includes("/mading/list-mading")) return "Dashboard > Mading";
 
   return "Dashboard";
 });
+
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
@@ -61,9 +69,9 @@ const items = computed<NavigationMenuItem[]>(() => [
     to: "/berita/list-berita",
   },
   {
-    label: "Mading",
+    label: "Event",
     icon: "i-lucide-clipboard-list",
-    to: "/mading/list-mading",
+    to: "/event/list-event",
   },
   {
     label: "Eskul",
@@ -99,6 +107,16 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: "Sertifikasi",
     icon: "i-lucide-award",
     to: "/sertifikat/list-sertifikat",
+  },
+  {
+    label: "Industri",
+    icon: "i-lucide-factory",
+    to: "/industri/list-industri",
+  },
+  {
+    label: "Mading",
+    icon: "i-lucide-pin",
+    to: "/mading/list-mading",
   },
 ]);
 </script>

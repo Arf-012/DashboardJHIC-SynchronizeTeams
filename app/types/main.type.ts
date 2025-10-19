@@ -169,5 +169,23 @@ export interface Sertifikat {
   created_at: string;
 }
 
+export interface Industri {
+  id: number;
+  name: string;
+  logo: string;
+  description: string;
+  website: string
+  created_at: string;
+}
+export interface Acara {
+  id: number;
+  title: string;
+  type: string;
+  content: string;
+  image: string
+  status: string;
+  is_active: boolean;
+}
+
 
 

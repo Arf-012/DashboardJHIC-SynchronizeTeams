@@ -25,7 +25,7 @@
         <div class="text-left w-full border-t border-gray-200 pt-4">
           <h3 class="font-semibold text-gray-700 mb-2">Deskripsi:</h3>
           <p class="text-gray-600 leading-relaxed whitespace-pre-line">
-            {{ guru.description }}
+            {{ truncateText(guru.description, 100) }}
           </p>
         </div>
       </div>
@@ -35,6 +35,16 @@
 
 <script setup lang="ts">
 import type { Guru } from '~/types/main.type';
+
+
+const truncateText = (text: string, maxLength: number) => {
+  if (!text) return "";
+
+  const plainText = text.replace(/<[^>]+>/g, "");
+
+  if (plainText.length <= maxLength) return plainText;
+  return plainText.substring(0, maxLength) + "...";
+};
 
 
 defineProps<{ guru: Guru | null }>()

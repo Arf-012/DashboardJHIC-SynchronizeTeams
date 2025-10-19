@@ -1,7 +1,7 @@
 <template>
   <div class="p-8 flex flex-col gap-8">
     <div class="w-full flex justify-between">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Buat Mading / Event Baru</h2>
+      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Buat Event Baru</h2>
       <NuxtLink to="/mading/list-mading">
         <button
           class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
@@ -112,6 +112,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+definePageMeta({
+  path: "/event/create-event",
+});
 
 const { createMading, loading } = UseMading()
 

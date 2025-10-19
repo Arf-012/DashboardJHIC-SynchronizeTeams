@@ -1,6 +1,5 @@
 <template>
   <section class="p-8 flex flex-col gap-8 min-h-screen">
-    <!-- 🔹 Header -->
     <div class="w-full flex justify-between items-center">
       <h2 class="text-2xl font-bold text-gray-800">Daftar Forum</h2>
 
@@ -13,15 +12,13 @@
       </NuxtLink>
     </div>
 
-    <!-- 🔹 State: Loading / Error -->
     <div v-if="loading" class="text-gray-500 text-center py-10">
       Memuat data forum...
     </div>
-    <div v-else-if="error" class="text-red-500 text-center py-10">
-      {{ error }}
+    <div v-else-if="forumList.length === 0" class="text-gray-500 text-center py-10">
+      Tidak ada forum yang ditemukan
     </div>
 
-    <!-- 🔹 List Forum -->
     <div v-else class="flex flex-col gap-6">
       <ForumCard
         v-for="item in forumList"

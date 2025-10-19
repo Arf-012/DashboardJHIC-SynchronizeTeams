@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
 
-
 const items: NavigationMenuItem[][] = [
   [
     {
@@ -53,9 +52,9 @@ const items: NavigationMenuItem[][] = [
       to: "/berita/list-berita",
     },
     {
-      label: "Mading",
+      label: "Event",
       icon: "i-lucide-clipboard-list",
-      to: "/mading/list-mading",
+      to: "/event/list-event",
     },
     {
       label: "Eskul",
@@ -92,9 +91,18 @@ const items: NavigationMenuItem[][] = [
       icon: "i-lucide-award",
       to: "/sertifikat/list-sertifikat",
     },
+    {
+      label: "Industri",
+      icon: "i-lucide-factory",
+      to: "/industri/list-industri",
+    },
+    {
+      label: "Mading",
+      icon: "i-lucide-pin",
+      to: "/mading/list-mading",
+    },
   ],
 ];
-
 </script>
 
 <style scoped></style>

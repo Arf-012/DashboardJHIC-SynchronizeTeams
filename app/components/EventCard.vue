@@ -17,7 +17,6 @@
         {{ title }}
       </h3>
 
-      <!-- Status Visibility -->
       <span
         class="text-xs font-semibold px-2 py-1 rounded-md capitalize w-fit"
         :class="visibility === 'public'
@@ -27,7 +26,6 @@
         {{ visibility }}
       </span>
 
-      <!-- Tombol Aksi -->
       <div class="flex flex-wrap gap-3 mt-2">
         <NuxtLink :to="`/mading/edit/${id}`">
           <button
@@ -44,7 +42,6 @@
           Delete
         </button>
 
-        <!-- Tombol Change Visibility -->
         <button
           @click.stop="handleChangeVisibility"
           class="px-4 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 rounded-md transition"

@@ -1,10 +1,9 @@
 <template>
   <section class="p-8 flex flex-col gap-8 min-h-screen">
     <div class="w-full flex justify-between items-center">
-      <h2 class="text-2xl font-bold text-gray-800">Mading Terbaru</h2>
+      <h2 class="text-2xl font-bold text-gray-800">Event Terbaru</h2>
 
       <div class="flex items-center gap-3">
-        <!-- 🔍 Filter -->
         <select
           v-model="filterVisibility"
           class="border border-gray-300 rounded-md px-3 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-secondary-red"
@@ -24,13 +23,11 @@
       </div>
     </div>
 
-    <!-- Loading & Error -->
     <div v-if="loading" class="text-gray-500 text-center py-10">
-      Memuat data mading...
+      Memuat data Event...
     </div>
-    <div v-else-if="error" class="text-red-500 text-center py-10">{{ error }}</div>
+    <div v-else-if="filteredMading.length === 0" class="text-gray-500 text-center py-10">{{ error }}</div>
 
-    <!-- Data -->
     <div
       v-else
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -47,7 +44,6 @@
       />
     </div>
 
-    <!-- Pagination -->
     <div
       v-if="!loading && !error && totalPages > 1"
       class="flex justify-center items-center gap-4 mt-10"
@@ -77,6 +73,10 @@
 
 <script setup lang="ts">
 
+definePageMeta({
+  path: "/event/list-event",
+});
+
 const {
   filteredMading,
   FetchAllMading,
@@ -94,6 +94,7 @@ const totalPages = computed(() =>
 )
 
 const paginatedMading = computed(() => {
+  if (!Array.isArray(filteredMading.value)) return []
   const start = (currentPage.value - 1) * perPage
   return filteredMading.value.slice(start, start + perPage)
 })
