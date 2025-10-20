@@ -10,9 +10,7 @@
       </NuxtLink>
     </div>
 
-    <!-- Form -->
     <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <!-- Nama Sertifikat -->
       <div class="p-4">
         <label class="block text-sm font-medium text-primary-gray">Nama Sertifikat</label>
         <input
