@@ -204,7 +204,6 @@
 </template>
 
 <script setup lang="ts">
-import TamuCard from "~/components/TamuCard.vue";
 
 const { tamuList, fetchAllTamu, approveTamu, rejectTamu, loading, error } = UseTamu();
 
