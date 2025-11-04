@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   modules: ["@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
   runtimeConfig: {
     public: {
-      apiBase: "https://infra-adeli.synchronizeteams.my.id/api",
+      apiBase: "https://infra.synchronizeteams.my.id/api",
     },  
   },
 });

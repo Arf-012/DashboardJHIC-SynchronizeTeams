@@ -1,7 +1,7 @@
 import type { LoginResponse } from "~/types/main.type";
 
 export const useAuth = () => {
-  const { setToken } = UseStorage(); // pastikan ini composable kamu sendiri
+  const { setToken } = UseStorage(); 
   const apiUrl = useRuntimeConfig().public.apiBase;
 
   const loading = ref(false);
