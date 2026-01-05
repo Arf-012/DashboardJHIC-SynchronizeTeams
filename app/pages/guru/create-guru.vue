@@ -129,7 +129,7 @@ async function submitForm() {
   try {
     await CreateGuru(form.value);
     alert("Guru berhasil ditambahkan!");
-    navigateTo("/list-guru");
+    navigateTo("/guru/list-guru");
   } catch (err) {
     alert("Gagal menambahkan guru.");
   }

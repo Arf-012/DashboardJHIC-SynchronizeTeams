@@ -158,7 +158,7 @@ const getImageUrl = (path?: string | null) => {
 const handleUpdate = async () => {
   await updateGuru(guruId, form);
   alert("Guru berhasil diperbarui!");
-  router.push("/list-guru");
+  router.push("/guru/list-guru");
 };
 
 onMounted(loadGuru);

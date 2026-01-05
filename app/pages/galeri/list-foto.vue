@@ -14,7 +14,7 @@
           <option value="event">Event</option>
           <option value="dokumentasi">Dokumentasi</option>
         </select>
-  
+
         <NuxtLink to="/galeri/upload-photo">
           <button
             class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
@@ -53,14 +53,14 @@
       @confirm="confirmDelete"
       @cancel="closeModal"
     />
-       <div
+    <div
       v-if="!loading && !error && totalPages > 1"
       class="flex justify-center items-center gap-4 mt-10"
     >
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -72,7 +72,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -118,26 +118,20 @@ const handleCategoryChange = () => {
   }
 };
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 
-const currentPage = ref(1)
-const perPage = 8
-
-const totalPages = computed(() =>
-  Math.ceil(gallery.value.length / perPage)
-)
-
-const paginatedGallery = computed(() => {
-  const start = (currentPage.value - 1) * perPage
-  return gallery.value.slice(start, start + perPage)
-})
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedGallery,
+  nextPage,
+  prevPage,
+} = usePagination(gallery, 8);
 
 onMounted(() => {
   fetchGallery();

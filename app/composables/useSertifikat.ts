@@ -94,7 +94,7 @@ const updateSertifikat = async (id: string, formData: FormData) => {
           },
         }
       );
-      sertifikat.value = res;
+      sertifikat.value = res || [];
       return res;
     } catch (err) {
       console.error("Error fetch sertifikat:", err);

@@ -13,7 +13,9 @@
 
     <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Judul Berita</label>
+        <label class="block text-sm font-medium text-primary-gray"
+          >Judul Berita</label
+        >
         <input
           v-model="form.judul"
           type="text"
@@ -24,7 +26,9 @@
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Gambar Berita</label>
+        <label class="block text-sm font-medium text-primary-gray"
+          >Gambar Berita</label
+        >
         <input
           type="file"
           accept="image/*"
@@ -32,12 +36,18 @@
           class="mt-1 block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
         />
         <div v-if="previewUrl" class="mt-3">
-          <img :src="previewUrl" alt="Preview" class="w-full h-48 object-cover rounded-md" />
+          <img
+            :src="previewUrl"
+            alt="Preview"
+            class="w-full h-48 object-cover rounded-md"
+          />
         </div>
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Excerpt</label>
+        <label class="block text-sm font-medium text-primary-gray"
+          >Excerpt</label
+        >
         <textarea
           v-model="form.excerpt"
           rows="2"
@@ -94,69 +104,71 @@
 </template>
 
 <script setup lang="ts">
-
-const route = useRoute()
-const router = useRouter()
-const { GetBeritaById, UpdateBerita, singleNews, loading } = useBerita()
+const route = useRoute();
+const router = useRouter();
+const { GetBeritaById, UpdateBerita, singleNews, loading } = useBerita();
 
 const form = ref({
-  judul: '',
-  isi: '',
+  judul: "",
+  isi: "",
   gambar: null as File | null,
-  excerpt: '',
-  status: 'draft',
+  excerpt: "",
+  status: "draft",
   tags: [] as string[],
-})
+});
 
-const previewUrl = ref<string | null>(null)
-const newTag = ref('')
+const previewUrl = ref<string | null>(null);
+const newTag = ref("");
 
 onMounted(async () => {
-  const data = await GetBeritaById(route.params.id as string)
+  const data = await GetBeritaById(route.params.id as string);
 
   if (data) {
-    form.value.judul = data.title
-    form.value.excerpt = data.excerpt
-    form.value.isi = data.content ?? ''
+    form.value.judul = data.title;
+    form.value.excerpt = data.excerpt;
+    form.value.isi = data.content ?? "";
     form.value.tags = Array.isArray(data.tags)
       ? data.tags.map((t: any) =>
-          typeof t === 'string' ? t : t.name.replace(/"/g, '')
+          typeof t === "string" ? t : t.name.replace(/"/g, "")
         )
-      : []
+      : [];
     if (data.thumbnail) {
-      previewUrl.value = `https://api-infra.synchronizeteams.my.id/${data.thumbnail}`
+      const config = useRuntimeConfig();
+      previewUrl.value = data.thumbnail.startsWith("http")
+        ? data.thumbnail
+        : `${config.public.apiBase}/${data.thumbnail}`;
     }
   }
-})
+});
 
 function handleImageUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0]
+  const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
-    form.value.gambar = file
-    previewUrl.value = URL.createObjectURL(file)
+    form.value.gambar = file;
+    previewUrl.value = URL.createObjectURL(file);
   }
 }
 
 function addTag() {
-  const tag = newTag.value.trim()
+  const tag = newTag.value.trim();
   if (tag && !form.value.tags.includes(tag)) {
-    form.value.tags.push(tag)
+    form.value.tags.push(tag);
   }
-  newTag.value = ''
+  newTag.value = "";
 }
 
 function removeTag(index: number) {
-  form.value.tags.splice(index, 1)
+  form.value.tags.splice(index, 1);
 }
 
 async function submitEdit() {
   try {
-    await UpdateBerita(route.params.id as string, form.value)
-    alert('Berita berhasil diperbarui!')
-    router.push('/berita/list-berita')
+    await UpdateBerita(route.params.id as string, form.value);
+    alert("Berita berhasil diperbarui!");
+    router.push("/berita/list-berita");
   } catch (err) {
-    console.error('Gagal memperbarui berita:', err)
-    alert('Gagal memperbarui berita.')
+    console.error("Gagal memperbarui berita:", err);
+    alert("Gagal memperbarui berita.");
   }
 }
 </script>

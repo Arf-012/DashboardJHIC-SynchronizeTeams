@@ -23,6 +23,13 @@
     </div>
 
     <div
+      v-else-if="testimoni.length === 0"
+      class="text-gray-500 text-center py-8"
+    >
+      Tidak ada Testimoni yang ditemukan
+    </div>
+
+    <div
       v-else
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
@@ -55,7 +62,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -67,7 +74,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -76,63 +83,53 @@
 </template>
 
 <script setup lang="ts">
+const { testimoni, fetchAllTestimoni, deleteTestimoni, loading, error } =
+  useTestimoni();
 
-const {
-  testimoni,
-  fetchAllTestimoni,
-  deleteTestimoni,
-  loading,
-  error
-} = useTestimoni()
-
-const showDeleteModal = ref(false)
-const selectedId = ref<number | null>(null)
+const showDeleteModal = ref(false);
+const selectedId = ref<number | null>(null);
 
 const openDeleteModal = (id: number) => {
-  selectedId.value = id
-  showDeleteModal.value = true
-}
+  selectedId.value = id;
+  showDeleteModal.value = true;
+};
 
 const openEditModal = (id: number) => {
-  navigateTo(`/testimoni/edit/${id}`)
-}
+  navigateTo(`/testimoni/edit/${id}`);
+};
 
 const closeModal = () => {
-  selectedId.value = null
-  showDeleteModal.value = false
-}
+  selectedId.value = null;
+  showDeleteModal.value = false;
+};
 
 const confirmDelete = async () => {
   if (selectedId.value) {
     try {
-      await deleteTestimoni(selectedId.value)
-      closeModal()
+      await deleteTestimoni(selectedId.value);
+      closeModal();
     } catch (err) {
-      console.error('Gagal menghapus testimoni:', err)
+      console.error("Gagal menghapus testimoni:", err);
     }
   }
-}
+};
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string) => {
-  if (!path) return '/images/default.jpg'
-  return path.startsWith('http') ? path : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 
-const currentPage = ref(1)
-const perPage = 8
-
-const totalPages = computed(() =>
-  Math.ceil(testimoni.value.length / perPage)
-)
-
-const paginatedTestimoni = computed(() => {
-  const start = (currentPage.value - 1) * perPage
-  return testimoni.value.slice(start, start + perPage)
-})
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedTestimoni,
+  nextPage,
+  prevPage,
+} = usePagination(testimoni, 8);
 
 onMounted(() => {
-  fetchAllTestimoni()
-})
+  fetchAllTestimoni();
+});
 </script>

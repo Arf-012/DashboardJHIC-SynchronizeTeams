@@ -24,10 +24,11 @@
       {{ error }}
     </div>
 
-    <div
-      v-else
-      class="flex flex-col gap-6"
-    >
+    <div v-else-if="portal.length === 0" class="text-gray-500 text-center py-8">
+      Tidak ada Portal yang ditemukan
+    </div>
+
+    <div v-else class="flex flex-col gap-6">
       <PortalCard
         v-for="item in paginatedPortal"
         :key="item.id"
@@ -59,7 +60,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -71,7 +72,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -80,8 +81,7 @@
 </template>
 
 <script setup lang="ts">
-
-const { portal, fetchAllPortal, deletePortal, loading, error } = UsePortal()
+const { portal, fetchAllPortal, deletePortal, loading, error } = UsePortal();
 
 const showDeleteModal = ref(false);
 const selectedId = ref<number | null>(null);
@@ -111,24 +111,20 @@ const confirmDelete = async () => {
   }
 };
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getLogoUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
+  if (!path) return "/images/default.jpg";
   return path.startsWith("http") ? path : `${apiUrl}/${path}`;
-}
+};
 
-const currentPage = ref(1);
-const perPage = 8;
-
-const totalPages = computed(() =>
-  Math.ceil(portal.value.length / perPage)
-);
-
-const paginatedPortal = computed(() => {
-  const start = (currentPage.value - 1) * perPage;
-  return portal.value.slice(start, start + perPage);
-});
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedPortal,
+  nextPage,
+  prevPage,
+} = usePagination(portal, 8);
 
 onMounted(() => {
   fetchAllPortal();

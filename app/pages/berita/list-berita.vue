@@ -19,10 +19,7 @@
       Tidak ada berita yang ditemukan
     </div>
 
-    <div
-      v-else
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <cardComponent
         v-for="item in paginatedNews"
         :key="item.id"
@@ -30,7 +27,7 @@
         :title="item.title"
         :image="`${apiUrl}/${item.thumbnail}`"
         :to="`/berita/${item.slug}`"
-        @delete="handleDelete" 
+        @delete="handleDelete"
       />
     </div>
 
@@ -41,7 +38,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -53,7 +50,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -62,45 +59,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-const { news, loading, error, FetchAllBerita, DeleteBerita } = useBerita()
+import { ref, computed, onMounted } from "vue";
+const { news, loading, error, FetchAllBerita, DeleteBerita } = useBerita();
 
-const currentPage = ref(1)
-const perPage = 6
-
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 
-const totalPages = computed(() =>
-  Math.ceil(news.value.length / perPage)
-)
-
-const paginatedNews = computed(() => {
-  const start = (currentPage.value - 1) * perPage
-  return news.value.slice(start, start + perPage)
-})
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedNews,
+  nextPage,
+  prevPage,
+} = usePagination(news, 6);
 
 onMounted(() => {
-  FetchAllBerita()
-})
+  FetchAllBerita();
+});
 
 const handleDelete = async (id: number) => {
   if (confirm("Yakin ingin menghapus berita ini?")) {
     try {
-      await DeleteBerita(id)
+      await DeleteBerita(id);
       // Option 1: refresh data dari server
-      await FetchAllBerita()
+      await FetchAllBerita();
       // Option 2 (lebih cepat): data sudah dihapus di composable, jadi bisa skip FetchAllBerita()
     } catch (err) {
-      console.error("Gagal menghapus berita:", err)
-      alert("Gagal menghapus berita.")
+      console.error("Gagal menghapus berita:", err);
+      alert("Gagal menghapus berita.");
     }
   }
-}
+};
 </script>
