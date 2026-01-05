@@ -26,12 +26,14 @@
     <div v-if="loading" class="text-gray-500 text-center py-10">
       Memuat data Event...
     </div>
-    <div v-else-if="filteredMading.length === 0" class="text-gray-500 text-center py-10">{{ error }}</div>
-
     <div
-      v-else
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      v-else-if="filteredMading.length === 0"
+      class="text-gray-500 text-center py-10"
     >
+      Tidak ada Event yang ditemukan
+    </div>
+
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <EventCard
         v-for="item in paginatedMading"
         :key="item.id"
@@ -51,7 +53,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -63,7 +65,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -72,7 +74,6 @@
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   path: "/event/list-event",
 });
@@ -84,54 +85,49 @@ const {
   error,
   filterVisibility,
   changeVisibility,
-} = UseMading()
+} = UseMading();
 
-const currentPage = ref(1)
-const perPage = 6
-
-const totalPages = computed(() =>
-  Math.ceil(filteredMading.value.length / perPage)
-)
-
-const paginatedMading = computed(() => {
-  if (!Array.isArray(filteredMading.value)) return []
-  const start = (currentPage.value - 1) * perPage
-  return filteredMading.value.slice(start, start + perPage)
-})
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedMading,
+  nextPage,
+  prevPage,
+} = usePagination(filteredMading, 6);
 
 onMounted(async () => {
-  await FetchAllMading()
-})
+  await FetchAllMading();
+});
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http") ? path : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 
 // 🧹 Hapus Mading
 const handleDelete = async (id: number) => {
   if (confirm("Yakin ingin menghapus mading ini?")) {
     try {
-      const { deleteMading } = UseMading()
-      await deleteMading(id)
-      await FetchAllMading()
+      const { deleteMading } = UseMading();
+      await deleteMading(id);
+      await FetchAllMading();
     } catch (err) {
-      console.error("Gagal menghapus mading:", err)
+      console.error("Gagal menghapus mading:", err);
     }
   }
-}
+};
 
 const handleChangeVisibility = async (
   id: number,
   newVisibility: "public" | "private"
 ) => {
   try {
-    await changeVisibility(id, newVisibility)
-    await FetchAllMading()
+    await changeVisibility(id, newVisibility);
+    await FetchAllMading();
   } catch (err) {
-    console.error("Gagal mengubah visibility:", err)
+    console.error("Gagal mengubah visibility:", err);
   }
-}
+};
 </script>

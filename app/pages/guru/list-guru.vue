@@ -15,6 +15,10 @@
       Memuat data guru...
     </div>
 
+    <div v-else-if="guru.length === 0" class="text-center text-gray-500 py-10">
+      Belum ada data guru tersedia.
+    </div>
+
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <GuruCard
         v-for="g in paginatedGuru"
@@ -26,13 +30,6 @@
         @edit="editGuru(g.id)"
         @delete="openDeleteModal(g.id)"
       />
-    </div>
-
-    <div
-      v-if="!loading && guru.length === 0"
-      class="text-center text-gray-500 py-10"
-    >
-      Belum ada data guru tersedia.
     </div>
 
     <GuruModal
@@ -54,7 +51,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -66,7 +63,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -114,16 +111,13 @@ const confirmDelete = async () => {
   }
 };
 
-const currentPage = ref(1);
-const perPage = 8;
-
-const totalPages = computed(() => Math.ceil(guru.value.length / perPage));
-
-const paginatedGuru = computed(() => {
-  if (!Array.isArray(guru.value)) return [];
-  const start = (currentPage.value - 1) * perPage;
-  return guru.value.slice(start, start + perPage);
-});
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedGuru,
+  nextPage,
+  prevPage,
+} = usePagination(guru, 8);
 
 onMounted(() => {
   fetchGuru();

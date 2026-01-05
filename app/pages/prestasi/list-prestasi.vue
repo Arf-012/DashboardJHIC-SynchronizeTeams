@@ -16,7 +16,10 @@
     <div v-if="loading" class="text-gray-500 text-center py-10">
       Memuat data prestasi...
     </div>
-    <div v-else-if="prestasi.length === 0" class="text-gray-500 text-center py-10">
+    <div
+      v-else-if="prestasi.length === 0"
+      class="text-gray-500 text-center py-10"
+    >
       Tidak ada prestasi yang ditemukan
     </div>
 
@@ -44,7 +47,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -56,7 +59,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -98,14 +101,11 @@ function cancelDelete() {
   selectedId.value = null;
 }
 
-const currentPage = ref(1);
-const perPage = 6;
-
-const totalPages = computed(() => Math.ceil(prestasi.value.length / perPage));
-
-const paginatedPrestasi = computed(() => {
-  if (!Array.isArray(prestasi.value)) return [];
-  const start = (currentPage.value - 1) * perPage;
-  return prestasi.value.slice(start, start + perPage);
-});
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedPrestasi,
+  nextPage,
+  prevPage,
+} = usePagination(prestasi, 6);
 </script>

@@ -23,6 +23,13 @@
     </div>
 
     <div
+      v-else-if="sertifikat.length === 0"
+      class="text-gray-500 text-center py-8"
+    >
+      Tidak ada Sertifikat yang ditemukan
+    </div>
+
+    <div
       v-else
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
@@ -54,7 +61,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === 1"
-        @click="currentPage--"
+        @click="prevPage"
       >
         ← Prev
       </button>
@@ -66,7 +73,7 @@
       <button
         class="px-3 py-1 bg-secondary-red rounded-md hover:bg-secondary-red/50 text-white disabled:opacity-50"
         :disabled="currentPage === totalPages"
-        @click="currentPage++"
+        @click="nextPage"
       >
         Next →
       </button>
@@ -75,13 +82,8 @@
 </template>
 
 <script setup lang="ts">
-const {
-  sertifikat,
-  fetchAllSertifikat,
-  deleteSertifikat,
-  loading,
-  error,
-} = useSertifikat();
+const { sertifikat, fetchAllSertifikat, deleteSertifikat, loading, error } =
+  useSertifikat();
 
 const showDeleteModal = ref(false);
 const selectedId = ref<number | null>(null);
@@ -111,26 +113,20 @@ const confirmDelete = async () => {
   }
 };
 
-const apiUrl = useRuntimeConfig().public.apiBase
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
-}
+  if (!path) return "/images/default.jpg";
+  return path.startsWith("http") ? path : `${apiUrl}/${path}`;
+};
 
-const currentPage = ref(1);
-const perPage = 8;
-
-const totalPages = computed(() =>
-  Math.ceil(sertifikat.value.length / perPage)
-);
-
-const paginatedSertifikat = computed(() => {
-  const start = (currentPage.value - 1) * perPage;
-  return sertifikat.value.slice(start, start + perPage);
-});
+const {
+  currentPage,
+  totalPages,
+  paginatedData: paginatedSertifikat,
+  nextPage,
+  prevPage,
+} = usePagination(sertifikat, 8);
 
 onMounted(() => {
   fetchAllSertifikat();

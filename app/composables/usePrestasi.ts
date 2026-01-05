@@ -62,7 +62,7 @@ export const UsePrestasi = () => {
           },
         }
       );
-      prestasi.value = res;
+      prestasi.value = res || [];
 
       return res
 
