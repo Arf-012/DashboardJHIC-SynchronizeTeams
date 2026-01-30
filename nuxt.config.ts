@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   modules: ["@nuxt/icon", "@nuxt/image", "@nuxt/ui"],
   runtimeConfig: {
     public: {
-      apiBase: "https://penus.synchronizeteams.com/api",
+      apiBase: "https://api-penus.smkpluspnb.sch.id",
     },  
   },
 });
