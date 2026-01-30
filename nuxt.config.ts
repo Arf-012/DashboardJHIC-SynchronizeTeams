@@ -12,4 +12,7 @@ export default defineNuxtConfig({
       apiBase: "https://api-penus.smkpluspnb.sch.id",
     },  
   },
+  nitro: {
+    preset: 'static',
+  },
 });
