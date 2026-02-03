@@ -1,10 +1,10 @@
 <template>
   <div class="p-8 flex flex-col gap-8">
-    <div class="w-full flex justify-between">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">Buat Event Baru</h2>
+    <div class="w-full flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-gray-800">Buat Mading</h2>
       <NuxtLink to="/mading/list-mading">
         <button
-          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
+          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
         >
           Cancel
         </button>
@@ -13,85 +13,53 @@
 
     <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Judul Event</label>
+        <label class="block text-sm font-medium text-primary-gray">Judul</label>
         <input
           v-model="form.title"
           type="text"
-          placeholder="Masukkan judul event..."
+          placeholder="Masukkan judul mading..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
           required
         />
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Gambar Event</label>
+        <label class="block text-sm font-medium text-primary-gray">Tipe</label>
+        <select
+          v-model="form.type"
+          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+        >
+          <option disabled value="">Pilih tipe</option>
+          <option value="infographic">Infographic</option>
+          <option value="announcement">Announcement</option>
+        </select>
+      </div>
+
+      <div class="p-4">
+        <label class="block text-sm font-medium text-primary-gray">Gambar</label>
         <input
           type="file"
           accept="image/*"
-          @change="handleImageUpload"
+          @change="handleFileUpload"
           class="mt-1 block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
         />
+
         <div v-if="previewUrl" class="mt-3">
-          <img :src="previewUrl" alt="Preview" class="w-full h-48 object-cover rounded-md" />
+          <img
+            v-if="isImage"
+            :src="previewUrl"
+            alt="Preview"
+            class="w-full h-48 object-cover rounded-md"
+          />
         </div>
       </div>
 
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
-        <textarea
-          v-model="form.description"
+        <label class="block text-sm font-medium text-primary-gray">Konten</label>
+        <RichTextEditor
+          v-model="form.content"
           rows="4"
-          placeholder="Tulis deskripsi singkat event..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        ></textarea>
-      </div>
-
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Kategori</label>
-        <input
-          v-model="form.category"
-          type="text"
-          placeholder="Masukkan kategori event..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        />
-      </div>
-
-      <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-primary-gray">Tanggal Mulai</label>
-          <input
-            v-model="form.start_date"
-            type="date"
-            class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-          />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-primary-gray">Tanggal Berakhir</label>
-          <input
-            v-model="form.end_date"
-            type="date"
-            class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-          />
-        </div>
-      </div>
-
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Lokasi</label>
-        <input
-          v-model="form.location"
-          type="text"
-          placeholder="Masukkan lokasi event..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        />
-      </div>
-
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Penyelenggara</label>
-        <input
-          v-model="form.organizer"
-          type="text"
-          placeholder="Masukkan nama penyelenggara..."
+          placeholder="Tulis isi mading..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
         />
       </div>
@@ -103,7 +71,7 @@
           class="px-6 py-2 bg-secondary-red hover:bg-secondary-red/50 text-white font-medium rounded-md transition"
         >
           <template v-if="loading">Memproses...</template>
-          <template v-else>Simpan Event</template>
+          <template v-else>Buat Mading</template>
         </button>
       </div>
     </div>
@@ -111,43 +79,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
 definePageMeta({
-  path: "/event/create-event",
+  path: "/mading/create-mading",
 });
 
-const { createMading, loading } = UseMading()
+interface MadingForm {
+  title: string;
+  type: string;
+  content: string;
+  image: File | null;
+}
 
-const form = ref({
-  title: '',
-  description: '',
-  category: '',
-  start_date: '',
-  end_date: '',
-  location: '',
-  organizer: '',
-  image: null as File | null,
-})
+const { createMading, loading } = UseEvent();
 
-const previewUrl = ref<string | null>(null)
+const form = ref<MadingForm>({
+  title: "",
+  type: "",
+  content: "",
+  image: null,
+});
 
-function handleImageUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0]
+const previewUrl = ref<string | null>(null);
+const isImage = ref(true);
+
+function handleFileUpload(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
-    form.value.image = file
-    previewUrl.value = URL.createObjectURL(file)
+    form.value.image = file;
+    isImage.value = file.type.startsWith("image/");
+    previewUrl.value = isImage.value ? URL.createObjectURL(file) : null;
   }
 }
 
 async function submitForm() {
   try {
-    await createMading(form.value)
-    alert('Event berhasil disimpan!')
-    navigateTo('/event/list-event')
+    const data = new FormData();
+    data.append("title", form.value.title);
+    data.append("type", form.value.type);
+    data.append("content", form.value.content);
+    if (form.value.image) data.append("image", form.value.image);
+
+    await createMading(data);
+    alert("Mading berhasil dibuat!");
+    navigateTo("/mading/list-mading");
   } catch (err) {
-    console.error('Gagal menyimpan event:', err)
-    alert('Gagal menyimpan event. Periksa kembali input.')
+    console.error("Gagal membuat mading:", err);
+    alert("Terjadi kesalahan saat membuat mading.");
   }
 }
 </script>
