@@ -176,7 +176,7 @@
         </div>
       </div>
     </div>
-        <div
+    <div
       v-if="!loading && !error && totalPages > 1"
       class="flex justify-center items-center gap-4 mt-10"
     >
@@ -204,16 +204,16 @@
 </template>
 
 <script setup lang="ts">
-
-const { tamuList, fetchAllTamu, approveTamu, rejectTamu, loading, error } = UseTamu();
+const { tamuList, fetchAllTamu, approveTamu, rejectTamu, loading, error } =
+  UseTamu();
 
 const showNotification = ref(false);
 const notificationMessage = ref("");
 const approvedEvents = computed(() =>
-  tamuList.value.filter((t) => t.status === "approved")
+  tamuList.value.filter((t) => t.status === "approved"),
 );
 const pendingInvitations = computed(() =>
-  tamuList.value.filter((t) => t.status === "pending")
+  tamuList.value.filter((t) => t.status === "pending"),
 );
 
 onMounted(() => {
@@ -241,14 +241,15 @@ async function handleReject(tamuId: number) {
 const currentPage = ref(1);
 const perPage = 6;
 
-const totalPages = computed(() => Math.ceil(tamuList.value.length / perPage));
+const totalPages = computed(() =>
+  Math.ceil(pendingInvitations.value.length / perPage),
+);
 
 const paginatedTamu = computed(() => {
-  if (!Array.isArray(tamuList.value)) return [];
+  if (!Array.isArray(pendingInvitations.value)) return [];
   const start = (currentPage.value - 1) * perPage;
-  return tamuList.value.slice(start, start + perPage);
+  return pendingInvitations.value.slice(start, start + perPage);
 });
-
 </script>
 
 <style scoped>

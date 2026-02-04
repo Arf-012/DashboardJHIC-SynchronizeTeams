@@ -22,6 +22,7 @@ export const UseTamu = () => {
         },
       });
       tamuList.value = res;
+      console.log("tamuLiast:" , res)
       return res;
     } catch (err: any) {
       error.value = err.message;
