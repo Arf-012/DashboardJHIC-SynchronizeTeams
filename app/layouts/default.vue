@@ -25,12 +25,9 @@
 </template>
 
 <script setup lang="ts">
-
-const router = useRouter();
 const { removeToken } = UseStorage();
 
 function logout() {
-  removeToken()
-  router.push('/auth/login');
+  removeToken();
 }
 </script>
