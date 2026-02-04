@@ -1,5 +1,7 @@
 <template>
-  <div class="relative rounded-lg overflow-hidden shadow-md group transition-all duration-300 hover:shadow-lg bg-white">
+  <div
+    class="relative rounded-lg overflow-hidden shadow-md group transition-all duration-300 hover:shadow-lg bg-white"
+  >
     <img
       :src="image"
       alt="Mading Image"
@@ -13,7 +15,10 @@
         <p class="font-semibold text-lg truncate">{{ title }}</p>
         <p class="text-xs opacity-80 capitalize">{{ type }}</p>
       </div>
-      <span class="text-xs font-medium px-2 py-1 rounded-md" :class="statusColor">
+      <span
+        class="text-xs font-medium px-2 py-1 rounded-md"
+        :class="statusColor"
+      >
         {{ status }}
       </span>
     </div>
@@ -26,7 +31,7 @@
         class="bg-yellow-500 text-white p-2 rounded-md hover:bg-yellow-600 transition"
         title="Edit"
       >
-      Status
+        Status
         <i class="fas fa-edit"></i>
       </button>
       <button
@@ -34,7 +39,7 @@
         class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition"
         title="Hapus"
       >
-      Hapus
+        Hapus
         <i class="fas fa-trash-alt"></i>
       </button>
       <button
@@ -42,8 +47,8 @@
         class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition"
         title="update"
       >
-      Edit
-        <i class="fas fa-trash-alt"></i>
+        Edit
+        <Icon name="heroicons:pencil-square" class="w-4 h-4" />
       </button>
     </div>
   </div>

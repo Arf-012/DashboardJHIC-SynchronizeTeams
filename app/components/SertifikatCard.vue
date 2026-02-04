@@ -41,7 +41,7 @@
 interface SertifikatCardProps {
   id: number;
   name: string;
-  image?: string
+  image?: string;
   description?: string;
   created_at?: string;
 }

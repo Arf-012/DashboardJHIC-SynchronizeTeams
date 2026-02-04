@@ -1,6 +1,5 @@
 import type { Guru } from "~/types/main.type";
 
-
 export const UseTeacher = () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
@@ -94,7 +93,7 @@ export const UseTeacher = () => {
       subject: string;
       description: string;
       photo?: File | null;
-    }
+    },
   ) => {
     loading.value = true;
     try {
@@ -124,7 +123,7 @@ export const UseTeacher = () => {
     }
   };
 
-    const deleteGuru = async (id: number) => {
+  const deleteGuru = async (id: number) => {
     try {
       await $fetch(`${apiUrl}/api/v1/teacher/delete/${id}`, {
         method: "DELETE",
@@ -146,6 +145,6 @@ export const UseTeacher = () => {
     CreateGuru,
     fetchGuruById,
     updateGuru,
-    deleteGuru
+    deleteGuru,
   };
 };

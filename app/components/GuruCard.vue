@@ -23,20 +23,20 @@
     >
       <button
         @click.stop="$emit('edit')"
-        class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition"
+        class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition flex items-center justify-center"
         title="Edit"
       >
-      Edit
-        <i class="fas fa-edit"></i>
+        <span class="sr-only">Edit</span>
+        <Icon name="heroicons:pencil-square" class="w-5 h-5 text-white" />
       </button>
 
       <button
         @click.stop="$emit('delete')"
-        class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition"
+        class="bg-secondary-red text-white p-2 rounded-md hover:bg-secondary-red/50 transition flex items-center justify-center"
         title="Hapus"
       >
-      Hapus
-        <i class="fas fa-trash-alt"></i>
+        <span class="sr-only">Hapus</span>
+        <Icon name="heroicons:trash" class="w-5 h-5 text-white" />
       </button>
     </div>
   </div>
@@ -48,8 +48,6 @@ defineProps<{
   title: string;
   subtitle?: string;
 }>();
-
-
 
 defineEmits(["show-detail", "edit", "delete"]);
 </script>

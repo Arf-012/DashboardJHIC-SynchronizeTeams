@@ -51,8 +51,5 @@ const emit = defineEmits<{
   delete: [id: number];
 }>();
 
-
-
 const apiUrl = useRuntimeConfig().public.apiBase;
-
 </script>

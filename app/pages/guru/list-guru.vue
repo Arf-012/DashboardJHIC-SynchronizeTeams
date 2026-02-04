@@ -2,12 +2,11 @@
   <section class="p-8 flex flex-col gap-8 min-h-screen">
     <div class="w-full flex justify-between">
       <h2 class="text-2xl font-semibold mb-6 text-gray-800">Daftar Guru</h2>
-      <NuxtLink to="/guru/create-guru">
-        <button
-          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
-        >
-          Tambah
-        </button>
+      <NuxtLink
+        to="/guru/create-guru"
+        class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md flex items-center justify-center transition-colors"
+      >
+        Tambah
       </NuxtLink>
     </div>
 
