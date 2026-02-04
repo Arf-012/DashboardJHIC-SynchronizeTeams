@@ -20,8 +20,8 @@ export const UseMading = () => {
     formData.append("title", form.title);
     formData.append("description", form.description);
     formData.append("category", form.category);
-    formData.append("startdate", form.start_date);
-    formData.append("enddate", form.end_date);
+    formData.append("start_date", form.start_date);
+    formData.append("end_date", form.end_date);
     formData.append("location", form.location);
     formData.append("organizer", form.organizer);
     if (form.image) formData.append("image", form.image);
@@ -52,8 +52,8 @@ export const UseMading = () => {
     formData.append("title", form.title);
     formData.append("description", form.description);
     formData.append("category", form.category);
-    formData.append("startdate", form.start_date);
-    formData.append("enddate", form.end_date);
+    formData.append("start_date", form.start_date);
+    formData.append("end_date", form.end_date);
     formData.append("location", form.location);
     formData.append("organizer", form.organizer);
     if (form.image) formData.append("image", form.image);
