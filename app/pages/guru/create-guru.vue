@@ -80,6 +80,7 @@
         />
         <div v-if="previewUrl" class="mt-3">
           <img
+            v-if="isImage"
             :src="previewUrl"
             alt="Preview"
             class="w-full h-48 object-cover rounded-md border border-gray-300"
@@ -116,11 +117,13 @@ const form = ref({
 });
 
 const previewUrl = ref<string | null>(null);
+const isImage = ref(true);
 
 function handleImageUpload(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
     form.value.photo = file;
+    isImage.value = file.type.startsWith("image/");
     previewUrl.value = URL.createObjectURL(file);
   }
 }

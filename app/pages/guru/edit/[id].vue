@@ -60,12 +60,13 @@
 
         <!-- Deskripsi -->
         <div>
-          <label class="block text-gray-700 font-semibold mb-1">Deskripsi</label>
-          <textarea
+          <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
+          <RichTextEditor
             v-model="form.description"
-            rows="4"
-            class="w-full border border-gray-300 outline-1 outline-secondary-red rounded-lg p-2 focus:outline-2 resize-none"
-          ></textarea>
+            rows="3"
+            placeholder="Tuliskan deskripsi guru..."
+            class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+          />
         </div>
 
         <!-- Foto Lama -->

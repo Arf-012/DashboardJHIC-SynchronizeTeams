@@ -1,224 +1,245 @@
 <template>
   <div class="p-8 flex flex-col gap-8">
-    <div class="w-full flex justify-between">
-      <h2 class="text-2xl font-semibold mb-6 text-gray-800">
-        {{ isEdit ? "Edit Mading / Event" : "Buat Mading / Event Baru" }}
-      </h2>
-      <NuxtLink to="/mading/list">
+    <div class="w-full flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-gray-800">Edit Mading</h2>
+      <NuxtLink to="/mading/list-mading">
         <button
-          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 cursor-pointer rounded-md"
+          class="px-4 py-1 bg-secondary-red text-white hover:bg-secondary-red/50 rounded-md"
         >
           Cancel
         </button>
       </NuxtLink>
     </div>
 
-    <div class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red">
-      <!-- JUDUL -->
+    <div
+      v-if="!loading && form"
+      class="space-y-5 p-4 border rounded-md shadow-md border-secondary-red"
+    >
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Judul Event</label>
+        <label class="block text-sm font-medium text-primary-gray">Judul Mading</label>
         <input
           v-model="form.title"
           type="text"
-          placeholder="Masukkan judul event..."
+          placeholder="Masukkan judul mading..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
           required
         />
       </div>
 
-      <!-- GAMBAR -->
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Gambar Event</label>
+        <label class="block text-sm font-medium text-primary-gray">Tipe</label>
+        <select
+          v-model="form.type"
+          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
+        >
+          <option disabled value="">Pilih tipe</option>
+          <option value="infographic">Infographic</option>
+          <option value="announcement">Announcement</option>
+        </select>
+      </div>
+
+      <div class="p-4">
+        <label class="block text-sm font-medium text-primary-gray">Gambar Mading</label>
+
+        <div v-if="currentImageUrl && !newImage" class="mt-3 mb-4">
+          <p class="text-sm text-gray-600 mb-2">Gambar saat ini:</p>
+          <img
+            :src="currentImageUrl"
+            alt="Gambar Saat Ini"
+            class="w-full max-w-xs h-48 object-cover rounded-md border"
+          />
+        </div>
+
         <input
           type="file"
           accept="image/*"
-          @change="handleImageUpload"
+          @change="handleFileUpload"
           class="mt-1 block w-full text-sm border rounded-md cursor-pointer focus:outline-none p-1"
         />
 
-        <!-- Gambar lama -->
-        <div v-if="!previewUrl && form.imageUrl" class="mt-3">
-          <p class="text-sm text-gray-600 mb-1">Gambar Lama:</p>
-          <img
-            :src="getImageUrl(form.imageUrl)"
-            alt="Gambar Lama"
-            class="w-full h-48 object-cover rounded-md border"
-          />
-        </div>
-
-        <!-- Preview gambar baru -->
         <div v-if="previewUrl" class="mt-3">
-          <p class="text-sm text-gray-600 mb-1">Preview Gambar Baru:</p>
+          <p class="text-sm text-gray-600 mb-2">Preview gambar baru:</p>
           <img
+            v-if="isImage"
             :src="previewUrl"
-            alt="Preview"
-            class="w-full h-48 object-cover rounded-md border"
+            alt="Preview Baru"
+            class="w-full max-w-xs h-48 object-cover rounded-md border"
           />
+          <p v-else class="text-gray-700 text-sm">
+            File siap diunggah: {{ newImage?.name }}
+          </p>
         </div>
+
+        <button
+          v-if="currentImageUrl"
+          @click="removeCurrentImage"
+          type="button"
+          class="mt-2 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
+        >
+          Hapus Gambar Saat Ini
+        </button>
       </div>
 
-      <!-- DESKRIPSI -->
       <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Deskripsi</label>
-        <textarea
-          v-model="form.description"
+        <label class="block text-sm font-medium text-primary-gray">Konten</label>
+        <RichTextEditor
+          v-model="form.content"
           rows="4"
-          placeholder="Tulis deskripsi singkat event..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        ></textarea>
-      </div>
-
-      <!-- KATEGORI -->
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Kategori</label>
-        <input
-          v-model="form.category"
-          type="text"
-          placeholder="Masukkan kategori event..."
+          placeholder="Tulis isi mading..."
           class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
         />
       </div>
 
-      <!-- TANGGAL -->
-      <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-primary-gray">Tanggal Mulai</label>
-          <input
-            v-model="form.start_date"
-            type="date"
-            class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-primary-gray">Tanggal Berakhir</label>
-          <input
-            v-model="form.end_date"
-            type="date"
-            class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-          />
-        </div>
-      </div>
-
-      <!-- LOKASI -->
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Lokasi</label>
-        <input
-          v-model="form.location"
-          type="text"
-          placeholder="Masukkan lokasi event..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        />
-      </div>
-
-      <!-- PENYELENGGARA -->
-      <div class="p-4">
-        <label class="block text-sm font-medium text-primary-gray">Penyelenggara</label>
-        <input
-          v-model="form.organizer"
-          type="text"
-          placeholder="Masukkan nama penyelenggara..."
-          class="mt-1 block w-full rounded-md border-gray-300 outline-2 outline-secondary-red p-2"
-        />
-      </div>
-
-      <!-- SUBMIT BUTTON -->
-      <div class="flex justify-end p-4">
+      <div class="flex justify-end p-4 gap-3">
+        <button
+          @click="resetForm"
+          class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-md transition"
+        >
+          Reset
+        </button>
         <button
           @click="submitForm"
-          :disabled="loading"
-          class="px-6 py-2 bg-secondary-red hover:bg-secondary-red/50 text-white font-medium rounded-md transition"
+          :disabled="updateLoading"
+          class="px-6 py-2 bg-secondary-red hover:bg-secondary-red/50 text-white font-medium rounded-md transition disabled:opacity-50"
         >
-          <template v-if="loading">Memproses...</template>
-          <template v-else>{{ isEdit ? "Update Event" : "Simpan Event" }}</template>
+          <template v-if="updateLoading">Memproses...</template>
+          <template v-else>Update Mading</template>
         </button>
       </div>
     </div>
+
+    <div v-if="loading" class="text-center py-8">
+      <div class="animate-pulse text-gray-500">Memuat data mading...</div>
+    </div>
+
+    <div v-if="error" class="text-center py-8 text-red-500">{{ error }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import type { MadingForm } from "~/types/main.type";
-// import type { MadingForm } from "~/types/main.type";
 
 definePageMeta({
-  path: "/event/edit/:id",
+  path: "/mading/edit/:id",
 });
 
-const { createMading, loading, FetchMadingById, UpdateMading } = UseMading();
-
 const route = useRoute();
-const router = useRouter();
+const { id } = route.params;
 
-const isEdit = ref(!!route.params.id);
+interface MadingForm {
+  title: string;
+  type: string;
+  content: string;
+  image: File | null;
+}
+
+const {
+  fetchMadingById,
+  updateMading,
+  loading,
+  error,
+  singleMading,
+} = UseEvent();
 
 const form = ref<MadingForm>({
   title: "",
-  description: "",
-  category: "",
-  start_date: "",
-  end_date: "",
-  location: "",
-  organizer: "",
-  image: null as File | null,
-  imageUrl: "", 
+  type: "",
+  content: "",
+  image: null,
 });
 
+const originalForm = ref<MadingForm>({ ...form.value });
+const updateLoading = ref(false);
 const previewUrl = ref<string | null>(null);
-
-function handleImageUpload(event: Event) {
-  const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    form.value.image = file;
-    previewUrl.value = URL.createObjectURL(file);
-  }
-}
-
-const apiUrl = useRuntimeConfig().public.apiBase
-
-const getImageUrl = (path?: string | null) => {
-  if (!path) return "/images/default.jpg"
-  return path.startsWith("http")
-    ? path
-    : `${apiUrl}/${path}`
-}
-
+const isImage = ref(true);
+const newImage = ref<File | null>(null);
+const currentImageUrl = ref<string | null>(null);
+const removeImageFlag = ref(false);
+const apiUrl = useRuntimeConfig().public.apiBase;
 
 onMounted(async () => {
-  if (isEdit.value) {
-    const id = Number(route.params.id);
-    const data = await FetchMadingById(id);
+  try {
+    await fetchMadingById(Number(id));
+    if (singleMading.value) {
+      const data = singleMading.value;
 
-    if (data) {
-      form.value.title = data.title;
-      form.value.description = data.description;
-      form.value.category = data.category;
-      form.value.start_date = data.start_date;
-      form.value.end_date = data.end_date;
-      form.value.location = data.location;
-      form.value.organizer = data.organizer;
-      form.value.imageUrl = data.image; // pastikan API kirim URL lengkap
+      form.value = {
+        title: data.title || "",
+        type: data.type || "",
+        content: data.content || "",
+        image: null,
+      };
+
+      originalForm.value = { ...form.value };
+
+      if (data.image) {
+        currentImageUrl.value = data.image.startsWith("http")
+          ? data.image
+          : `${apiUrl}/${data.image}`;
+      }
     }
+  } catch (err) {
+    console.error("Gagal memuat data mading:", err);
   }
 });
 
-// Submit Form
+function handleFileUpload(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    newImage.value = file;
+    form.value.image = file;
+    isImage.value = file.type.startsWith("image/");
+    previewUrl.value = isImage.value ? URL.createObjectURL(file) : null;
+    removeImageFlag.value = false;
+  }
+}
+
+function removeCurrentImage() {
+  currentImageUrl.value = null;
+  newImage.value = null;
+  previewUrl.value = null;
+  form.value.image = null;
+  removeImageFlag.value = true;
+}
+
+function resetForm() {
+  form.value = { ...originalForm.value };
+  newImage.value = null;
+  previewUrl.value = null;
+  removeImageFlag.value = false;
+
+  if (singleMading.value?.image) {
+    currentImageUrl.value = singleMading.value.image.startsWith("http")
+      ? singleMading.value.image
+      : `${apiUrl}/${singleMading.value.image}`;
+  }
+}
+
 async function submitForm() {
   try {
-    if (isEdit.value) {
-      const id = Number(route.params.id);
-      await UpdateMading(id, form.value);
-      alert("Event berhasil diperbarui!");
-    } else {
-      await createMading(form.value);
-      alert("Event berhasil disimpan!");
+    updateLoading.value = true;
+
+    const data = new FormData();
+    data.append("title", form.value.title);
+    data.append("type", form.value.type);
+    data.append("content", form.value.content);
+
+    if (newImage.value) {
+      data.append("image", newImage.value);
+    } else if (removeImageFlag.value) {
+      data.append("image", "");
     }
 
-    router.push("/event/list-event");
+    data.append("_method", "PUT");
+
+    await updateMading(data, Number(id));
+
+    alert("Mading berhasil diupdate!");
+    navigateTo("/mading/list-mading");
   } catch (err) {
-    console.error("Gagal menyimpan event:", err);
-    alert("Gagal menyimpan event. Periksa kembali input.");
+    console.error("Gagal mengupdate mading:", err);
+    alert("Terjadi kesalahan saat mengupdate mading.");
+  } finally {
+    updateLoading.value = false;
   }
 }
 </script>

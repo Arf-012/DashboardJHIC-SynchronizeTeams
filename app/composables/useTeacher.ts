@@ -50,7 +50,7 @@ export const UseTeacher = () => {
       formData.append("subject", form.subject);
       formData.append("description", form.description);
       if (form.photo) {
-        formData.append("file_path", form.photo);
+        formData.append("photo", form.photo);
       } else {
         throw new Error("File gambar wajib diisi");
       }
