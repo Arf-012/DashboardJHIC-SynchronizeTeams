@@ -13,7 +13,7 @@ export const UseStorage = () => {
   const removeToken = () => {
     const authToken = useCookie("authToken");
     authToken.value = null;
-    navigateTo("/auth/login")
+    navigateTo("/auth/login");
   };
 
   return { setToken, getToken, removeToken };
